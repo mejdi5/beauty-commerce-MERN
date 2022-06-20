@@ -23,8 +23,14 @@
     flex-direction: column;
 }
 
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 5px ;
+}
+
 .cart-item-title {
-    text-align: center;
+    font-size: small;
 }
 
 .cart-item-info, .cart-item-icons {
@@ -51,4 +57,20 @@
 
 .cart-add-icon, .cart-remove-icon{
     cursor: pointer;
+}
+
+.cart-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reset-cart {
+    cursor: pointer;
+    float: right
+}
+
+.empty {
+    display: flex;
+    justify-content: center;
 }

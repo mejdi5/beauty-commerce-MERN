@@ -8,31 +8,49 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTypedSelector, useTypedDispatch } from '../../Redux/Hooks'
 import { ProductType } from '../../Redux/productSlice';
-import { addToCart, increase, decrease, reset } from '../../Redux/cartSlice';
+import { getUserCart, CartType, CartProduct } from '../../Redux/cartSlice';
+import axios from 'axios'
 
 
 const Product : React.FC = () => {
 
     const dispatch = useTypedDispatch()
     const products = useTypedSelector<ProductType[]>(state => state.productSlice.products)
+    const cart = useTypedSelector<CartType | null>(state => state.cartSlice.cart)
     const navigate = useNavigate()
     const productId = useParams().productId
     const product = products.find(p => p._id === productId)
+    const [productNumber, setProductNumber] = useState(1)
 
-    const productQuantity = useTypedSelector<number>(state => state.cartSlice.productQuantity)
 
-    const increaseQuantity = () => {
-        dispatch(increase())
+
+    const editCart = async (addedProduct: any) => {
+        if(cart?._id) {
+            const editedCart = {
+                ...cart, 
+                cartProducts: 
+                cart.cartProducts.some(item => item?.product?._id === addedProduct?.product?._id) 
+                ? cart.cartProducts.map(item => 
+                    item?.product?._id === addedProduct?.product?._id
+                    ? {...item, productQuantity: item?.productQuantity + addedProduct?.productQuantity}
+                    : item
+                )  
+                : [...cart.cartProducts, addedProduct],
+                total: cart.cartProducts.length > 0 ? cart.cartProducts.map(item => item?.product?.price*item?.productQuantity).reduce((a,b) => a + b) : 0
+            }
+            try {
+                const res = await axios.put(`http://localhost:5000/api/carts/${cart._id}`, editedCart)
+                dispatch(getUserCart({
+                    ...res.data, 
+                    quantity: res.data.cartProducts.map((item: CartProduct) => item?.productQuantity).reduce((a:number,b:number) => a + b),
+                    total: res.data.cartProducts.map((item: CartProduct) => item?.product?.price*item?.productQuantity).reduce((a:number,b:number) => a + b) 
+                })) 
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
-
-    const decreaseQuantity = () => {
-        productQuantity > 1 && dispatch(decrease())
-    }
-
-    const AddProductToCart = () => {
-        dispatch(addToCart({...product, productQuantity}));
-        reset();
-    }
+    
     
 return (
 <div className='App'>
@@ -48,11 +66,17 @@ return (
         </div>
         <div className='product-amount'>
             <div className='amount'>
-                <div className='set-amount' onClick={decreaseQuantity}><RemoveIcon/></div>
-                <span className='amount-number'>{productQuantity}</span>
-                <div className='set-amount' onClick={increaseQuantity}><AddIcon/></div>
+                <div className='set-amount' onClick={() => productNumber > 1 && setProductNumber(productNumber - 1)}><RemoveIcon/></div>
+                <span className='amount-number'>{productNumber}</span>
+                <div className='set-amount' onClick={() => setProductNumber(productNumber + 1)}><AddIcon/></div>
             </div>
-            <button className='amount-btn' onClick={AddProductToCart}>Add to cart</button>
+            <button 
+            className='amount-btn' 
+            onClick={() => {
+                editCart({product, productQuantity: productNumber }); 
+                setProductNumber(1)
+                }
+            }>Add to cart</button>
         </div>
     </div>
     <Footer/>

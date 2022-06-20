@@ -64,6 +64,24 @@
     border-radius: 4px;
 }
 
+.signup {
+    background-color: rgb(34, 25, 111);
+    max-height: 45px;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.signout {
+    background-color: rgb(30, 20, 20);
+    max-height: 45px;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
 @media (max-width: 600px ) {
     .navbar-container {
         height: 60px;

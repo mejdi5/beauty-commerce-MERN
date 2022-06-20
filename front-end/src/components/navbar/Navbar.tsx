@@ -14,7 +14,7 @@ const Navbar : React.FC = () => {
 
     const [cartOpen, setCartOpen] = useState(false);
     const user = useTypedSelector(state => state.userSlice.user)
-    const quantity = useTypedSelector<number>(state => state.cartSlice.quantity)
+    const cart = useTypedSelector(state => state.cartSlice.cart)
     const dispatch = useTypedDispatch()
 
     const handleLogout = () => {
@@ -45,7 +45,7 @@ return (
                 ?
                 <div  className='navbar-right'>
                     <Link to="/register">
-                        <div className='navbar-right-item'>Sign Up</div>
+                        <div className='navbar-right-item signup'>Sign Up</div>
                     </Link>
                     <Link to="login">
                         <div className='navbar-right-item signin'>Sign In</div>
@@ -53,12 +53,12 @@ return (
                 </div>
                 :
                 <div  className='navbar-right'>
-                    <div className='navbar-right-item' onClick={handleLogout}>Sign Out</div>
+                    <div className='navbar-right-item signout' onClick={handleLogout}>Sign Out</div>
                     <div className='navbar-right-item'>
                         <Drawer open={cartOpen} onClose={() => setCartOpen(false)}>
                             <Cart/>
                         </Drawer>
-                        <Badge badgeContent={quantity} color="error" onClick={() => setCartOpen(true)}>
+                        <Badge badgeContent={cart?.quantity} color="error" onClick={() => setCartOpen(true)}>
                             <ShoppingCartIcon/>
                         </Badge>
                     </div>

@@ -1,6 +1,5 @@
 import React,{useEffect} from 'react'
 import './Products.css'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useTypedSelector, useTypedDispatch } from '../../Redux/Hooks'
 import { getCategory, getProducts } from '../../Redux/productSlice';
@@ -16,13 +15,15 @@ const Products : React.FC = () => {
     const dispatch = useTypedDispatch()
     const paramsCategory = useParams()?.category
 
-    useEffect(() => {
+//const useMountEffect = (function) => useEffect(() => function, [])
+
+    /*const useMountEffect = () =>*/ useEffect(() => {
         const fetchProducts = async () => {
         try {
             dispatch(getCategory(paramsCategory));
 
             const res = await axios.get(category
-                ?`http://localhost:5000/api/products?category=${category}`
+                ? `http://localhost:5000/api/products?category=${category}`
                 : `http://localhost:5000/api/products`);
     
             let sortedProducts = 
@@ -53,7 +54,6 @@ return (
             </Link>
             <div className='icons'>
                 <div className='icon'><FavoriteIcon color='error'/></div>
-                <div className='icon'><ShoppingCartIcon/></div>
                 <span className='product-price'>{product.price}$</span>
             </div>
         </div>

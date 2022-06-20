@@ -12,9 +12,8 @@
 }
 
 .product-image {
-    width: 100%;
-    height: 90vh;
-    object-fit: cover;
+    width: fit-content;
+    height: fit-content;
 }
 
 .product-title {

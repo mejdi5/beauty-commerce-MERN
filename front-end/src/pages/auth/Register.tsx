@@ -1,7 +1,7 @@
 import React, {FormEvent, useState, useEffect} from 'react'
 import './Auth.css'
-import { useTypedDispatch } from '../../Redux/Hooks'
-import { authStart, registerSuccess, authFailure } from '../../Redux/userSlice'
+import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { authStart, registerSuccess, authFailure, UserType } from '../../Redux/userSlice'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
@@ -9,6 +9,7 @@ import axios from 'axios'
 const Register : React.FC = () => {
 
     const [isChecked, setIsChecked] = useState(false)
+    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const dispatch = useTypedDispatch()
     const navigate = useNavigate()
 

@@ -1,50 +1,44 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductType } from "./productSlice";
 
+export interface CartProduct {
+    product: ProductType,
+    productQuantity: number
+}
+
 export interface CartType {
-    userId : String,
-    products: [{productId: String, quantity: Number}]
+    _id?: string | null,
+    userId : string | null,
+    cartProducts: CartProduct[] | never[],
+    quantity: number ,
+    total: number ,
+    cratedAt?: any,
+    updatedAt?: any
 }
 
 interface State {
-    cartProducts: ProductType[],
-    productQuantity: number,
-    quantity: number,
-    total: number
+    cart: CartType | null,
 }
 
 const cartSlice = createSlice({
     name: 'cart',
     initialState: {
-        cartProducts: [],
-        productQuantity: 1,
-        quantity: 0,
-        total: 0
+        cart: {
+            _id: null,
+            userId: null,
+            cartProducts: [],
+            quantity: 0,
+            total: 0,
+        } ,
     },
     reducers: {
-    addToCart: (state: State, action: PayloadAction<any>) => {
-        state.cartProducts = [...state.cartProducts, action.payload]
-        state.quantity += 1
-        state.total += action.payload.quantity * action.payload.price
-    },
-    increase: (state: State) => {
-        state.productQuantity += 1
-    },
-    decrease: (state: State) => {
-        state.productQuantity -= 1
-    },
-    reset: (state: State) => {
-        state.productQuantity = 1
+    getUserCart: (state: State, action: PayloadAction<CartType>) => {
+        state.cart = action.payload
     }
-    }
-})
+}})
 
 const { actions, reducer } = cartSlice
 
-export const { addToCart,
-    increase,
-    decrease,
-    reset 
-} = actions;
+export const { getUserCart } = actions;
 
 export default reducer
