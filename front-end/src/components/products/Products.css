@@ -38,19 +38,6 @@
 .product-price {
     font-weight: bold;
     font-size: 20px;
-    height: 10px
-}
-
-.icons {
-    display: flex;
-    justify-content: space-around;
+    height: 10px;
     margin-top: 20px;
-}
-
-.icon {
-    cursor: pointer;
-}
-
-.icon:hover {
-    color: white
 }

@@ -28,20 +28,20 @@ router.put("/:cartId", /*isAuthorized,*/ async (req, res) => {
         {$set: req.body},
         { new: true }
     );
-    console.log('req.body', req.body)
     editedCart.cartProducts = req.body.cartProducts
     editedCart.quantity = req.body.cartProducts.length > 0 ? req.body.cartProducts.map(p => p.productQuantity).reduce((a,b) => a + b) : 0
     editedCart.total = req.body.cartProducts.length > 0 ? req.body.cartProducts.map(p => p.product.price*p.productQuantity).reduce((a,b) => a + b) : 0
-    console.log('editedCart', editedCart)
-    await editedCart.save()
-        res.status(200).json(editedCart);
+    
+    const updatedCart = await editedCart.save()
+
+        res.status(200).json(updatedCart);
     } catch (error) {
         res.status(500).json(error.message);
     }
 });
 
 //DELETE CART
-router.delete("/:cartId", /*isAuthorized,*/ async (req, res) => {
+router.delete("/:cartId", isAuthorized, async (req, res) => {
     try {
     await Cart.findByIdAndDelete({_id: req.params.cartId});
         res.status(200).json("Cart has been deleted...");

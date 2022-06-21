@@ -23,7 +23,7 @@ app.use("/api/users", require("./routes/user"));
 app.use("/api/products", require("./routes/product"));
 app.use("/api/carts", require("./routes/cart"));
 app.use("/api/orders", require("./routes/order"));
-//app.use("/api/checkout", require("./routes/stripe"));
+app.use("/api/checkout", require("./routes/stripe"));
 
 
 app.listen(process.env.PORT || 5000, () => {

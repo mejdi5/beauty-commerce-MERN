@@ -7,13 +7,13 @@ import Drawer from '@mui/material/Drawer';
 import Cart from '../cart/Cart';
 import { useTypedSelector, useTypedDispatch } from '../../Redux/Hooks'
 import { Link } from 'react-router-dom'
-import { logoutUser } from '../../Redux/userSlice';
+import { logoutUser, UserType } from '../../Redux/userSlice';
 
 
 const Navbar : React.FC = () => {
 
     const [cartOpen, setCartOpen] = useState(false);
-    const user = useTypedSelector(state => state.userSlice.user)
+    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const cart = useTypedSelector(state => state.cartSlice.cart)
     const dispatch = useTypedDispatch()
 
@@ -37,7 +37,7 @@ return (
         </div>
 
         <div className='navbar-center'>
-            <div className='logo'>e-commerce</div>
+            {user && <div className='navbar-center-item'>{user?.firstName} {user?.lastName}</div>}
         </div>
 
         <div className='navbar-right-item'>
@@ -53,6 +53,9 @@ return (
                 </div>
                 :
                 <div  className='navbar-right'>
+                    <Link to={`/orders/${user?._id}`}>
+                        <div className='navbar-right-item orders'>Orders</div>
+                    </Link>
                     <div className='navbar-right-item signout' onClick={handleLogout}>Sign Out</div>
                     <div className='navbar-right-item'>
                         <Drawer open={cartOpen} onClose={() => setCartOpen(false)}>

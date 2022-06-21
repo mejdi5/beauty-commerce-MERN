@@ -63,6 +63,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .reset-cart {
@@ -73,4 +74,10 @@
 .empty {
     display: flex;
     justify-content: center;
+}
+
+.address-label {
+    margin-left: 30%;
+    font-size: 18px;
+    font-weight: bold;
 }

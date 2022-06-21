@@ -8,7 +8,7 @@ const {
 
 
 //POST NEW ORDER
-router.post("/", isAuthenticated, async (req, res) => {
+router.post("/", /*isAuthenticated,*/ async (req, res) => {
     const newOrder = new Order(req.body);
     try {
         const savedOrder = await newOrder.save();
@@ -43,7 +43,7 @@ router.delete("/:orderId", adminAuthorization, async (req, res) => {
 });
 
 //GET USER ORDERS
-router.get("/:userId", isAuthorized, async (req, res) => {
+router.get("/:userId", /*isAuthorized,*/ async (req, res) => {
     try {
         const orders = await Order.find({ userId: req.params.userId }).sort({createdAt: -1});
         res.status(200).json(orders);

@@ -2,6 +2,7 @@ import React, {FormEvent, useState} from 'react'
 import './Auth.css'
 import { useTypedDispatch } from '../../Redux/Hooks'
 import { authStart, loginSuccess, authFailure } from '../../Redux/userSlice'
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import {Link} from 'react-router-dom'
@@ -21,6 +22,7 @@ const Login : React.FC = () => {
         try {
             const res = await axios.post(`http://localhost:5000/api/auth/login`, {email, password})
             dispatch(loginSuccess(res.data))
+            console.log(res.data)
             navigate(`/`);
         } catch (error: any) {
             const errors = error?.response?.data?.errors;
@@ -40,6 +42,7 @@ const Login : React.FC = () => {
 
 return (
 <div className='login-container'>
+    <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <h1>Sign In</h1>
     <div className='login-wrapper'>
         <div className="mb-3">

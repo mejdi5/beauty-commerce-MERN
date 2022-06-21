@@ -15,9 +15,7 @@ const Products : React.FC = () => {
     const dispatch = useTypedDispatch()
     const paramsCategory = useParams()?.category
 
-//const useMountEffect = (function) => useEffect(() => function, [])
-
-    /*const useMountEffect = () =>*/ useEffect(() => {
+    useEffect(() => {
         const fetchProducts = async () => {
         try {
             dispatch(getCategory(paramsCategory));
@@ -39,10 +37,10 @@ const Products : React.FC = () => {
         fetchProducts()
     }, [category, sort])
 
+
     const filteredProducts = category
         ? products
         : products.slice(0,8)
-    
 
 return (
 <div className='products-container row-md-8'>
@@ -52,9 +50,8 @@ return (
             <Link to={`/product/${product._id}`}>
                 <img src={product.image} className='product-image'/>
             </Link>
-            <div className='icons'>
-                <div className='icon'><FavoriteIcon color='error'/></div>
-                <span className='product-price'>{product.price}$</span>
+            <div className='product-price'>
+                {product.price}$
             </div>
         </div>
     ))}

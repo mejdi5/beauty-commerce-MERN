@@ -19,11 +19,20 @@
 
 .navbar-center {
     flex: 2;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-center-item {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .navbar-right {
-    flex: 1;
+    flex: 2;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -43,43 +52,33 @@
     background-color: black;
 }
 
-.logo {
-    font-size: 17px;
-    font-weight: bold;
-}
-
 .navbar-right-item {
     font-size: 14px;
     cursor: pointer;
     margin-left: 25px;
     font-weight: bold;
+    max-height: 45px;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.orders {
+    background-color: rgba(13, 1, 16, 0.548);
+    text-decoration: none;
 }
 
 .signin {
     background-color: rgb(37, 100, 34);
-    max-height: 45px;
-    color: white;
-    padding: 5px;
-    font-weight: bold;
-    border-radius: 4px;
 }
 
 .signup {
     background-color: rgb(34, 25, 111);
-    max-height: 45px;
-    color: white;
-    padding: 5px;
-    font-weight: bold;
-    border-radius: 4px;
 }
 
 .signout {
     background-color: rgb(30, 20, 20);
-    max-height: 45px;
-    color: white;
-    padding: 5px;
-    font-weight: bold;
-    border-radius: 4px;
 }
 
 @media (max-width: 600px ) {

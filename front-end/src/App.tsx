@@ -5,6 +5,8 @@ import Register from './pages/auth/Register';
 import Home from './pages/Home'
 import ProductList from './pages/productList/ProductList';
 import Product from './pages/singleProduct/Product';
+import Orders from './pages/orders/Orders'
+import Order from './pages/singleOrder/Order'
 import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
 import { useTypedSelector } from './Redux/Hooks'
 import axios from 'axios'
@@ -18,7 +20,6 @@ const App : React.FC = () => {
   const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
   const isLoading = useTypedSelector(state => state.userSlice.isLoading)
   const dispatch = useTypedDispatch()
-
 
   const postCart = async () => {
     if (user) {
@@ -43,7 +44,6 @@ const App : React.FC = () => {
         const res = await axios.get(`http://localhost:5000/api/carts/${user._id}`)
         if(res.data?._id) {
           dispatch(getUserCart(res.data))
-          console.log(res.data)
         } else {
             postCart()
         }
@@ -56,7 +56,6 @@ const App : React.FC = () => {
   useEffect(() => {
     getCart()
   }, [user])
-
 
   if (isLoading) {
     return (
@@ -73,6 +72,8 @@ const App : React.FC = () => {
           <Route path="/products/:category" element={user ? <ProductList/> : <Navigate to="/"/>}/>
           <Route path="/products" element={user ? <ProductList/> : <Navigate to="/"/>}/>
           <Route path='/product/:productId' element={user ? <Product/> : <Navigate to="/"/>}/>
+          <Route path='/orders/:userId' element={user ? <Orders /> : <Navigate to="/"/>}/>
+          <Route path='/order/:orderId' element={user ? <Order /> : <Navigate to="/"/>}/>
           <Route path='/login' element={user ? <Navigate to="/"/> : <Login/>}/>
           <Route path='/register' element={user ? <Navigate to="/"/> : <Register/>}/>
         </Routes>

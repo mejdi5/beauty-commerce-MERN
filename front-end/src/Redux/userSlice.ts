@@ -30,12 +30,13 @@ const userSlice = createSlice({
             state.isLoading = true;
         },
         loginSuccess : (state: State, action: PayloadAction<any>) => {
-            state.isLoading = false
             localStorage.setItem('token', action.payload.token);
+            state.isLoading = false
             state.user = action.payload.user;
             state.msg = action.payload.msg;
         },
         registerSuccess : (state: State, action: PayloadAction<any>) => {
+            localStorage.setItem('token', action.payload.token);
             state.isLoading = false;
             state.user = action.payload.savedUser;
             state.msg = action.payload.msg;
@@ -44,9 +45,10 @@ const userSlice = createSlice({
             state.isLoading = false
             state.msg = "Something went wrong"
         },
+        
         logoutUser: (state: State) => {
-            state.isLoading = false;
             localStorage.removeItem('token');
+            state.isLoading = false;
             state.token = null;
             state.user = null
         }

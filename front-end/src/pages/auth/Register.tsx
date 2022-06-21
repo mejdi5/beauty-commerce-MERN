@@ -2,6 +2,7 @@ import React, {FormEvent, useState, useEffect} from 'react'
 import './Auth.css'
 import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { authStart, registerSuccess, authFailure, UserType } from '../../Redux/userSlice'
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
@@ -27,7 +28,7 @@ const Register : React.FC = () => {
                 const newUser = { firstName, lastName, email, password };
                 const res = await axios.post(`http://localhost:5000/api/auth/register`, newUser)
                 dispatch(registerSuccess(res.data))
-                navigate(`/login`);
+                navigate(`/`);
             } catch (error: any) {
                 console.dir('error',error);
                 const errors = error?.response?.data?.errors;
@@ -57,6 +58,7 @@ const Register : React.FC = () => {
 
 return (
 <div className='register-container'>
+    <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <h1>Sign Up</h1>
     <div className='register-wrapper'>
         <div className="mb-3">

@@ -54,7 +54,10 @@ router.post('/login', validator, async (req, res) => {
         res.status(500).json({msg: "server error", error: error.message});
     }
 })
-
+//GET CURRENT USER
+router.get('/currentUser', /*isAuthenticated,*/ (req, res) => {
+    res.status(200).json({ user: req.user });
+});
 
 
 module.exports = router;
