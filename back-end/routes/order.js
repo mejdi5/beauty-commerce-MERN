@@ -19,7 +19,7 @@ router.post("/", /*isAuthenticated,*/ async (req, res) => {
 });
 
 //EDIT AN ORDER
-router.put("/:orderId", adminAuthorization, async (req, res) => {
+router.put("/:orderId", /*adminAuthorization,*/ async (req, res) => {
     try {
     const editedOrder = await Order.findOneAndUpdate(
         req.params.orderId,

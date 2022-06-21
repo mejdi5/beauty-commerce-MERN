@@ -53,6 +53,7 @@
     cursor: pointer;
     margin-top: 20px;
     margin-left: 35%;
+    font-weight: bold;
 }
 
 .cart-add-icon, .cart-remove-icon{

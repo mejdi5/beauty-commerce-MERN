@@ -17,7 +17,6 @@ const Cart : React.FC = () => {
     const dispatch = useTypedDispatch()
     const [address, setAddress] = useState('')
 
-
 const decreaseProductQuantity = async (productId: string) => {
     if(cart?._id) {
         const editedCart = {
@@ -108,6 +107,7 @@ const postOrder = async () => {
     }
 }
 
+
 return (
 <div className='cart-container'>
 <div className='cart-wrapper'>
@@ -153,7 +153,7 @@ return (
             />
         </div>
     }
-    {cart?.cartProducts?.length > 0 && 
+    {cart?.cartProducts?.length > 0 &&
         <button 
         className='submit-cart-btn' 
         onClick={() => {address !== '' ? postOrder() : alert('Delivery Address is required')}}

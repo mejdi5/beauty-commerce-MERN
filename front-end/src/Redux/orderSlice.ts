@@ -7,6 +7,7 @@ export interface OrderType {
     products: CartProduct[] | never[],
     amount: number ,
     address: string ,
+    status?: string,
     createdAt?: any,
     updatedAt?: any
 }

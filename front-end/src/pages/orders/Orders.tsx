@@ -42,6 +42,7 @@ return (
                 <p>{order?.address}</p>
                 <p>{order?.amount}$</p>
                 <p>{order?.createdAt.substr(0, 10)}</p>
+                <p>{order?.status === 'paid' ? 'Paid' : 'Unpaid'}</p>
             </li>
             </Link>
         </ul>
