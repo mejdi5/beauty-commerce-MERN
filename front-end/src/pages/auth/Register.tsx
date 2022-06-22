@@ -57,8 +57,9 @@ const Register : React.FC = () => {
     
 
 return (
+<div>
+<div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
 <div className='register-container'>
-    <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <h1>Sign Up</h1>
     <div className='register-wrapper'>
         <div className="mb-3">
@@ -130,6 +131,7 @@ return (
         onClick={e => handleRegister(e)}
         >Submit</button>
     </div>
+</div>
 </div>
 )}
 

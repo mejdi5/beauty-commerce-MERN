@@ -41,8 +41,9 @@ const Login : React.FC = () => {
 
 
 return (
+<div>
+<div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
 <div className='login-container'>
-    <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <h1>Sign In</h1>
     <div className='login-wrapper'>
         <div className="mb-3">
@@ -70,9 +71,10 @@ return (
         <button className='login-btn' onClick={e => handleLogin(e)}>Login</button>
         <div className='login-links'>
             <Link to="/register"><p className='login-link'>New Account</p></Link>
-            <Link to=""><p className='login-link'>Forgot Password ?</p></Link>
+            <Link to="/forgot-password"><p className='login-link'>Forgot Password ?</p></Link>
         </div>
     </div>
+</div>
 </div>
 )}
 

@@ -13,6 +13,8 @@ import axios from 'axios'
 import { useTypedDispatch } from './Redux/Hooks'
 import { UserType } from './Redux/userSlice';
 import  { getUserCart }  from './Redux/cartSlice';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import PasswordReset from './pages/auth/PasswordReset';
 
 
 const App : React.FC = () => {
@@ -76,6 +78,8 @@ const App : React.FC = () => {
           <Route path='/order/:orderId' element={user ? <Order /> : <Navigate to="/"/>}/>
           <Route path='/login' element={user ? <Navigate to="/"/> : <Login/>}/>
           <Route path='/register' element={user ? <Navigate to="/"/> : <Register/>}/>
+          <Route path='/forgot-password' element={user ? <Navigate to="/"/> : <ForgotPassword/>}/>
+          <Route path='/reset-password' element={user ? <Navigate to="/"/> : <PasswordReset/>}/>
         </Routes>
     </BrowserRouter>
   );
