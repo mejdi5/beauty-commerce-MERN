@@ -17,7 +17,7 @@ const Orders : React.FC = () => {
 
     useEffect(() => {
     const fetchOrders = async() => {
-    if (user) {
+    if ((user && user?.verified)) {
         try {
             const res = await axios.get(`http://localhost:5000/api/orders/${user?._id}`)
             dispatch(getOrders(res.data))
@@ -25,7 +25,7 @@ const Orders : React.FC = () => {
             console.log(error)
         }
     }}
-    user && fetchOrders()
+    (user && user?.verified) && fetchOrders()
     }, [])
     
 

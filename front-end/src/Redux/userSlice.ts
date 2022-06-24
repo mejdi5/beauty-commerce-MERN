@@ -6,7 +6,8 @@ export interface UserType {
     lastName: String | undefined,
     email: String,
     password: String,
-    isAdmin?: Boolean
+    isAdmin?: Boolean,
+    verified?: Boolean
 }
 
 interface State {
@@ -45,6 +46,10 @@ const userSlice = createSlice({
             state.isLoading = false
             state.msg = "Something went wrong"
         },
+
+        getVerifiedUser: (state: State, action: PayloadAction<any>) => {
+            state.user = action.payload
+        },
         
         logoutUser: (state: State) => {
             localStorage.removeItem('token');
@@ -62,6 +67,7 @@ export const { authStart,
     loginSuccess,
     registerSuccess,
     authFailure,
+    getVerifiedUser,
     logoutUser,
 } = actions;
 

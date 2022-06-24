@@ -51,20 +51,26 @@ return (
                         <div className='navbar-right-item signin'>Sign In</div>
                     </Link>
                 </div>
-                :
+                : 
                 <div  className='navbar-right'>
+                    {(user && user.verified) &&
                     <Link to={`/orders/${user?._id}`}>
-                        <div className='navbar-right-item orders'>Orders</div>
+                        <div 
+                        className='navbar-right-item orders' 
+                        >Orders</div>
                     </Link>
+                    }
                     <div className='navbar-right-item signout' onClick={handleLogout}>Sign Out</div>
+                    {user.verified && 
                     <div className='navbar-right-item'>
-                        <Drawer open={cartOpen} onClose={() => setCartOpen(false)}>
-                            <Cart/>
-                        </Drawer>
-                        <Badge badgeContent={cart?.quantity} color="error" onClick={() => setCartOpen(true)}>
-                            <ShoppingCartIcon/>
-                        </Badge>
+                    <Drawer open={cartOpen} onClose={() => setCartOpen(false)}>
+                        <Cart/>
+                    </Drawer>
+                    <Badge badgeContent={cart?.quantity} color="error" onClick={() => setCartOpen(true)}>
+                        <ShoppingCartIcon/>
+                    </Badge>
                     </div>
+                    }
                 </div>
             }
         </div>

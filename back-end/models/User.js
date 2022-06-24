@@ -6,13 +6,17 @@ const UserSchema = new mongoose.Schema(
     lastName: { type: String, default: ''},
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-    },
-    //image: { type: String },
+    verified: { type: Boolean, default: false },
+    isAdmin: { type: Boolean, default: false },
 },
 { timestamps: true }
 );
+
+UserSchema.methods.generateAuthToken = function () {
+	const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, process.env.SECRET_JWT, {
+		expiresIn: "7d",
+	});
+	return token;
+};
 
 module.exports = mongoose.model("User", UserSchema);

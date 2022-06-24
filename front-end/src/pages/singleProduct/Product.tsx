@@ -10,11 +10,14 @@ import { useTypedSelector, useTypedDispatch } from '../../Redux/Hooks'
 import { ProductType } from '../../Redux/productSlice';
 import { getUserCart, CartType, CartProduct } from '../../Redux/cartSlice';
 import axios from 'axios'
+import { UserType } from '../../Redux/userSlice';
+import ActivateAccount from '../../components/activateAccount/ActivateAccount';
 
 
 const Product : React.FC = () => {
 
     const dispatch = useTypedDispatch()
+    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const products = useTypedSelector<ProductType[]>(state => state.productSlice.products)
     const cart = useTypedSelector<CartType | null>(state => state.cartSlice.cart)
     const navigate = useNavigate()
@@ -56,6 +59,7 @@ return (
 <div className='App'>
 <div>
     <Navbar/>
+    {(user && !user.verified) && <ActivateAccount/>}
     <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <div className='product-wrapper'>
         <div className='product-info'>
@@ -64,20 +68,22 @@ return (
             <span className='product-price'>{product?.price}$</span>
             <p className='product-description'>{product?.description}</p>
         </div>
+        {user && user.verified && 
         <div className='product-amount'>
-            <div className='amount'>
-                <div className='set-amount' onClick={() => productNumber > 1 && setProductNumber(productNumber - 1)}><RemoveIcon/></div>
+        <div className='amount'>
+            <div className='set-amount' onClick={() => productNumber > 1 && setProductNumber(productNumber - 1)}><RemoveIcon/></div>
                 <span className='amount-number'>{productNumber}</span>
                 <div className='set-amount' onClick={() => setProductNumber(productNumber + 1)}><AddIcon/></div>
             </div>
             <button 
             className='amount-btn' 
             onClick={() => {
-                editCart({product, productQuantity: productNumber }); 
-                setProductNumber(1)
-                }
+            editCart({product, productQuantity: productNumber }); 
+            setProductNumber(1)
+            }
             }>Add to cart</button>
         </div>
+        }
     </div>
     <Footer/>
 </div>

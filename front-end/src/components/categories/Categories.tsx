@@ -36,7 +36,11 @@ return (
             />
             <div className='item-info'>
                 <h1 className='item-title'>{category?.toUpperCase()}</h1>
-                <Link to={`/products/${category}`}><button className='item-button'>See</button></Link>
+                <Link to={`/products/${category}`}>
+                  <button 
+                  className='item-button'
+                  >See</button>
+                </Link>
             </div>
         </div>
     )}

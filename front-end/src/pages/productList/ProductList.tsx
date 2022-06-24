@@ -8,11 +8,14 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useTypedSelector, useTypedDispatch } from '../../Redux/Hooks'
 import { getSort } from '../../Redux/productSlice'
 import { ProductType } from '../../Redux/productSlice'
+import { UserType } from '../../Redux/userSlice'
+import ActivateAccount from '../../components/activateAccount/ActivateAccount'
 
 
 const ProductList : React.FC = () => {
 
     const products = useTypedSelector<ProductType[]>(state => state.productSlice.products)
+    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const category = useTypedSelector(state => state.productSlice.category)
     const dispatch = useTypedDispatch()
     const navigate = useNavigate()
@@ -22,6 +25,7 @@ return (
 <div className='App'>
 <div>
     <Navbar/>
+    {(user && !user.verified) && <ActivateAccount/>}
     <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <h1 className='products-title'>{typeof category === 'string' && category?.toUpperCase()}</h1>
     <div className='products-filter'>

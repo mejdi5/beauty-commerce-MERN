@@ -89,7 +89,7 @@ const resetCart = async () => {
 
 
 const postOrder = async () => {
-    if (user && cart) {
+    if ((user && user?.verified) && cart) {
         try {
             const newOrder = {
                 userId: user?._id,

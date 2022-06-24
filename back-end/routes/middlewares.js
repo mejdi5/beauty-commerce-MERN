@@ -36,7 +36,7 @@ const passwordValidation =  (req, res, next) => {
 const validator = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).send({
+        return res.status(400).json({
             errors: errors.array().map((err) => ({
             msg: err.msg,
             })),

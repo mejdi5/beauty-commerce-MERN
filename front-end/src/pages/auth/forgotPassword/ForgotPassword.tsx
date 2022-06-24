@@ -7,25 +7,23 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 const ForgotPassword = () => {
 	const [email, setEmail] = useState("");
-	const [msg, setMsg] = useState("");
-	const [error, setError] = useState("");
+	const [message, setMessage] = useState("");
 	const navigate = useNavigate()
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
 			const res  = await axios.post(`http://localhost:5000/api/auth/password-reset`, { email });
-			setMsg(res.data.message);
-			setError("");
+			setMessage(res.data.message);
 		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-				setMsg("");
-			}
+			const errors = error?.response?.data?.errors;
+            const msg = error?.response?.data?.msg;
+            if (Array.isArray(errors)) {
+                errors.forEach((err) => alert(err.msg));
+            }
+            if (msg) {
+                alert(msg);
+            }
 		}
 	};
 
@@ -44,8 +42,7 @@ return (
 					required
 					className="forgotPassword-input"
 				/>
-				{error && <div className="forgotPassword-error_msg">{error}</div>}
-				{msg && <div className="forgotPassword-success_msg">{msg}</div>}
+				{message && <div className="forgotPassword-success_msg">{message}</div>}
 				<button type="submit" className="forgotPassword-btn">
 					Submit
 				</button>
