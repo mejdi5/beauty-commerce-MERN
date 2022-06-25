@@ -1,16 +1,17 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Token = require("../models/Token");
-const jwt = require("jsonwebtoken");
 const sendEmail = require("../utils/sendEmail");
+const { passwordValidation } = require('./middlewares')
+const CryptoJS = require("crypto-js");
 
 
 // send password link
-router.post("/password-reset", emailValidation, validator, async (req, res) => {
+router.post("/password-reset", async (req, res) => {
 	try {
 		const email = req.body.email
 		let user = await User.findOne({ email });
-		!user && res.status(409).json({ message: "User with given email does not exist!" });
+		!user && res.status(409).json({ message: "No user with given email!" });
 
 		let token = await Token.findOne({ userId: user._id });
 		if (!token) {
@@ -20,7 +21,7 @@ router.post("/password-reset", emailValidation, validator, async (req, res) => {
 			}).save();
 		}
 
-		const url = `${process.env.BASE_URL}password-reset/${user._id}/${token.token}/`;
+		const url = `http://localhost:3000/password-reset/${user._id}/${token.token}/`;
 		await sendEmail(user.email, "Password Reset", url);
 
 		res.status(200).json({ message: "Password reset link sent to your email account" });
@@ -33,51 +34,47 @@ router.post("/password-reset", emailValidation, validator, async (req, res) => {
 router.get("/password-reset/:id/:token", async (req, res) => {
 	try {
 		const user = await User.findOne({ _id: req.params.id });
-		if (!user) return res.status(400).send({ message: "Invalid link" });
+		if (!user) return res.status(400).json({ message: "Invalid link" });
 
 		const token = await Token.findOne({
 			userId: user._id,
 			token: req.params.token,
 		});
-		if (!token) return res.status(400).send({ message: "Invalid link" });
+		if (!token) return res.status(400).json({ message: "Invalid link" });
 
-		res.status(200).send("Valid Url");
+		res.status(200).json({msg: "Valid Url"});
 	} catch (error) {
-		res.status(500).send({ message: "Internal Server Error" });
+		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
-//  set new password
-router.post("/password-reset/:id/:token", async (req, res) => {
+//set new password
+router.post("/password-reset/:id/:token", passwordValidation, async (req, res) => {
 	try {
-		const passwordSchema = Joi.object({
-			password: passwordComplexity().required().label("Password"),
-		});
-		const { error } = passwordSchema.validate(req.body);
-		if (error)
-			return res.status(400).send({ message: error.details[0].message });
 
 		const user = await User.findOne({ _id: req.params.id });
-		if (!user) return res.status(400).send({ message: "Invalid link" });
+		if (!user) return res.status(400).json({ message: "Invalid link" });
 
 		const token = await Token.findOne({
 			userId: user._id,
 			token: req.params.token,
 		});
-		if (!token) return res.status(400).send({ message: "Invalid link" });
+		if (!token) return res.status(400).json({ message: "Invalid link" });
 
 		if (!user.verified) user.verified = true;
 
-		const salt = await bcrypt.genSalt(Number(process.env.SALT));
-		const hashPassword = await bcrypt.hash(req.body.password, salt);
+		const hashPassword = CryptoJS.AES.encrypt(
+            req.body.password, 
+            process.env.PASSWORD_SECRET
+            ).toString()
 
 		user.password = hashPassword;
+		
 		await user.save();
-		await token.remove();
 
-		res.status(200).send({ message: "Password reset successfully" });
+		res.status(200).json({ message: "Password reset successfully" });
 	} catch (error) {
-		res.status(500).send({ message: "Internal Server Error" });
+		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 

@@ -19,6 +19,7 @@ app.use(express.json())
 app.use(morgan("dev"));
 
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/forgot-password", require("./routes/forgotPassword"));
 app.use("/api/users", require("./routes/user"));
 app.use("/api/products", require("./routes/product"));
 app.use("/api/carts", require("./routes/cart"));

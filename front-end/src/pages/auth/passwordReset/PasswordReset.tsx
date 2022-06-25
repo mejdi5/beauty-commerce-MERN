@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 const PasswordReset = () => {
+
 	const [validUrl, setValidUrl] = useState(false);
 	const [password, setPassword] = useState("");
 	const [msg, setMsg] = useState("");
@@ -16,10 +17,11 @@ const PasswordReset = () => {
 	useEffect(() => {
 		const verifyUrl = async () => {
 			try {
-				await axios.get(`http://localhost:5000/api/auth/password-reset/${id}/${token}`);
-				setValidUrl(true);
+				const res = await axios.get(`http://localhost:5000/api/forgot-password/password-reset/${id}/${token}`);
+				setValidUrl(true)
 			} catch (error) {
-				setValidUrl(false);
+				console.log(error.message)
+				setValidUrl(false)
 			}
 		};
 		verifyUrl();
@@ -28,8 +30,8 @@ const PasswordReset = () => {
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
-			const { data } = await axios.post(`http://localhost:5000/api/auth/password-reset/${id}/${token}`, { password });
-			setMsg(data.message);
+			const res = await axios.post(`http://localhost:5000/api/forgot-password/password-reset/${id}/${token}`, { password });
+			setMsg(res.data.message);
 			setError("");
 			navigate("/login");
 		} catch (error) {
@@ -47,7 +49,7 @@ const PasswordReset = () => {
 return (
 	<Fragment>
 		<div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
-			{validUrl ? (
+		{validUrl ? (
 				<div className="passord-reset-container">
 					<form className="passord-reset-form_container" onSubmit={handleSubmit}>
 						<h1>New Password</h1>
@@ -67,9 +69,9 @@ return (
 						</button>
 					</form>
 				</div>
-			) : (
-				<h1 className="not-found">404 Not Found</h1>
-			)}
+        ) : (
+			<h1 className="not-found">404 Not Found</h1>
+		)}
 	</Fragment>
 )};
 

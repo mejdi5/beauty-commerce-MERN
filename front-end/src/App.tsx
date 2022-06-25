@@ -81,7 +81,7 @@ const App : React.FC = () => {
           <Route path='/register' element={user ? <Navigate to="/"/> : <Register/>}/>
           <Route path="/verify/:id/:token" element={<EmailVerify />} />
           <Route path='/forgot-password' element={user ? <Navigate to="/"/> : <ForgotPassword/>}/>
-          <Route path='/reset-password' element={user ? <Navigate to="/"/> : <PasswordReset/>}/>
+          <Route path='/password-reset/:id/:token' element={user ? <Navigate to="/"/> : <PasswordReset/>}/>
         </Routes>
     </BrowserRouter>
   );
