@@ -33,7 +33,7 @@ const App : React.FC = () => {
           quantity: 0,
           total: 0
       }
-        const res = await axios.post(`http://localhost:5000/api/carts`, newCart)
+        const res = await axios.post(`/api/carts`, newCart)
         dispatch(getUserCart(res.data)) 
       } catch (error) {
         console.log(error)
@@ -44,7 +44,7 @@ const App : React.FC = () => {
   const getCart = async () => {
     if (user && user?.verified) {
       try {
-        const res = await axios.get(`http://localhost:5000/api/carts/${user._id}`)
+        const res = await axios.get(`/api/carts/${user._id}`)
         if(res.data?._id) {
           dispatch(getUserCart(res.data))
         } else {

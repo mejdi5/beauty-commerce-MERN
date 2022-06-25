@@ -42,7 +42,7 @@ const Product : React.FC = () => {
                 total: cart.cartProducts.length > 0 ? cart.cartProducts.map(item => item?.product?.price*item?.productQuantity).reduce((a,b) => a + b) : 0
             }
             try {
-                const res = await axios.put(`http://localhost:5000/api/carts/${cart._id}`, editedCart)
+                const res = await axios.put(`/api/carts/${cart._id}`, editedCart)
                 dispatch(getUserCart({
                     ...res.data, 
                     quantity: res.data.cartProducts.map((item: CartProduct) => item?.productQuantity).reduce((a:number,b:number) => a + b),

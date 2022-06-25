@@ -20,7 +20,7 @@ const Order : React.FC = () => {
 
     const setPaidOrder = async () => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/orders/${orderId}`, {status: 'paid'})
+            const res = await axios.put(`/api/orders/${orderId}`, {status: 'paid'})
             dispatch(getOrder(res.data))
         } catch (error) {
             console.log(error)
@@ -37,7 +37,7 @@ const Order : React.FC = () => {
         const makePayment = async () => {
         if (stripeToken) {
             try {
-                const res = await axios.post("http://localhost:5000/api/checkout/payment", {
+                const res = await axios.post("/api/checkout/payment", {
                     tokenId: stripeToken?.id,
                     amount: order?.amount,
                 });

@@ -17,7 +17,7 @@ const PasswordReset = () => {
 	useEffect(() => {
 		const verifyUrl = async () => {
 			try {
-				const res = await axios.get(`http://localhost:5000/api/forgot-password/password-reset/${id}/${token}`);
+				const res = await axios.get(`/api/forgot-password/password-reset/${id}/${token}`);
 				setValidUrl(true)
 			} catch (error) {
 				console.log(error.message)
@@ -30,7 +30,7 @@ const PasswordReset = () => {
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
-			const res = await axios.post(`http://localhost:5000/api/forgot-password/password-reset/${id}/${token}`, { password });
+			const res = await axios.post(`/api/forgot-password/password-reset/${id}/${token}`, { password });
 			setMsg(res.data.message);
 			setError("");
 			navigate("/login");

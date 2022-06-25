@@ -16,7 +16,7 @@ const Categories : React.FC = () => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/products')
+        const res = await axios.get('/api/products')
         dispatch(getAllCategories(res.data.map((product: ProductType) => product.categories).flat().filter(onlyOne)));
       } catch (error: any) {
         console.log(error.message)

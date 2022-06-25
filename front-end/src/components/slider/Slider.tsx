@@ -42,7 +42,7 @@ const Slider : React.FC = () => {
     useEffect(() => {
         const getSlideProducts = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/products')
+                const res = await axios.get('/api/products')
                 setSlideProducts(res.data.slice(0,10))
             } catch (error: any) {
                 console.log('error', error.message)

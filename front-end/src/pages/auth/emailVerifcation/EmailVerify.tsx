@@ -19,7 +19,7 @@ const EmailVerify = () => {
 	useEffect(() => {
 		const verifyEmailUrl = async () => {
 			try {
-				const res = await axios.get(`http://localhost:5000/api/auth/verify/${param.id}/${param.token}`);
+				const res = await axios.get(`/api/auth/verify/${param.id}/${param.token}`);
                 dispatch(getVerifiedUser(res.data.user))
 			} catch (error) {
 				console.log(error, "Account not verified");

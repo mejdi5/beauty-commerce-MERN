@@ -26,7 +26,7 @@ const Register : React.FC = () => {
             dispatch(authStart())
             try {
                 const newUser = { firstName, lastName, email, password };
-                const res = await axios.post(`http://localhost:5000/api/auth/register`, newUser)
+                const res = await axios.post(`/api/auth/register`, newUser)
                 dispatch(registerSuccess(res.data))
                 navigate(`/`);
             } catch (error: any) {
@@ -58,7 +58,7 @@ const Register : React.FC = () => {
 
 return (
 <div>
-<div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
+<div className='back' style={{position: 'absolute'}} onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
 <div className='register-container'>
     <h1>Sign Up</h1>
     <div className='register-wrapper'>

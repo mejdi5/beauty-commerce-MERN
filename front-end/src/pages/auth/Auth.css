@@ -6,7 +6,7 @@
     width: 100vw;
     height: 100vh;
     background: linear-gradient(
-        rgba(255, 255, 255, 0.5),
+        rgba(87, 80, 80, 0.5),
         rgba(255, 255, 255, 0.5)
     ),
     url("https://www.1designshop.com/wp-content/uploads/2016/01/1dsp-20160108-people005.png")
@@ -63,7 +63,7 @@
     width: 100vw;
     height: 100vh;
     background: linear-gradient(
-        rgba(255, 255, 255, 0.5),
+        rgba(87, 80, 80, 0.5),
         rgba(255, 255, 255, 0.5)
     ),
     url("https://www.1designshop.com/wp-content/uploads/2016/01/1dsp-20160108-people005.png")
@@ -91,6 +91,21 @@
     font-size: 12px;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.or {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.google-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
 
 @media (max-width: 600px) {

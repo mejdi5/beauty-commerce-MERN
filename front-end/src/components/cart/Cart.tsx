@@ -28,7 +28,7 @@ const decreaseProductQuantity = async (productId: string) => {
             total: cart.cartProducts.length > 0 ? cart.cartProducts.map((item: CartProduct) => item?.product.price*item.productQuantity).reduce((a,b) => a + b) : 0
         }
         try {
-            const res = await axios.put(`http://localhost:5000/api/carts/${cart._id}`, editedCart)
+            const res = await axios.put(`/api/carts/${cart._id}`, editedCart)
             dispatch(getUserCart(res.data)) 
         } catch (error) {
             console.log(error)
@@ -47,7 +47,7 @@ const increaseProductQuantity = async (productId: string) => {
             total: cart.cartProducts.length > 0 ? cart.cartProducts.map((item: CartProduct) => item?.product.price*item.productQuantity).reduce((a,b) => a + b) : 0
         }
         try {
-            const res = await axios.put(`http://localhost:5000/api/carts/${cart._id}`, editedCart)
+            const res = await axios.put(`/api/carts/${cart._id}`, editedCart)
             dispatch(getUserCart(res.data)) 
         } catch (error) {
             console.log(error)
@@ -63,7 +63,7 @@ const removeProductFromCart = async (productId: string) => {
             total: cart.cartProducts.length > 0 ? cart.cartProducts.map((item: CartProduct) => item?.product.price*item.productQuantity).reduce((a,b) => a + b) : 0
         }
         try {
-            const res = await axios.put(`http://localhost:5000/api/carts/${cart._id}`, editedCart)
+            const res = await axios.put(`/api/carts/${cart._id}`, editedCart)
             dispatch(getUserCart(res.data)) 
         } catch (error) {
             console.log(error)
@@ -79,7 +79,7 @@ const resetCart = async () => {
             total: 0
         }
         try {
-            const res = await axios.put(`http://localhost:5000/api/carts/${cart._id}`, resettedCart)
+            const res = await axios.put(`/api/carts/${cart._id}`, resettedCart)
             dispatch(getUserCart(res.data)) 
         } catch (error) {
             console.log(error)
@@ -97,7 +97,7 @@ const postOrder = async () => {
                 amount: cart?.total,
                 address
             }
-            const res = await axios.post('http://localhost:5000/api/orders', newOrder)
+            const res = await axios.post('/api/orders', newOrder)
             dispatch(getOrder(res.data))
             alert('Order posted with success')
             resetCart()

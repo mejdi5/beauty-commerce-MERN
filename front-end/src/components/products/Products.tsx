@@ -21,8 +21,8 @@ const Products : React.FC = () => {
             dispatch(getCategory(paramsCategory));
 
             const res = await axios.get(category
-                ? `http://localhost:5000/api/products?category=${category}`
-                : `http://localhost:5000/api/products`);
+                ? `/api/products?category=${category}`
+                : `/api/products`);
     
             let sortedProducts = 
                 sort === "price" ? res.data.sort((a: ProductType, b: ProductType) => a.price - b.price)

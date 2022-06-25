@@ -4,7 +4,7 @@ import './ActivateAccount.css'
 const ActivateAccount : React.FC = () => {
 return (
 <div className="activate-account">
-    Your account is not activated, Open Your email and activate your account
+    Your account is not verified, Open Your email and activate your account
 </div>
 )
 }

@@ -19,7 +19,7 @@ const Orders : React.FC = () => {
     const fetchOrders = async() => {
     if ((user && user?.verified)) {
         try {
-            const res = await axios.get(`http://localhost:5000/api/orders/${user?._id}`)
+            const res = await axios.get(`/api/orders/${user?._id}`)
             dispatch(getOrders(res.data))
         } catch (error) {
             console.log(error)
@@ -38,7 +38,7 @@ return (
         <ul className="list-group" key={order?._id}>
             <Link to={`/order/${order?._id}`}>
             <li className="list-group-item">
-                <p>Products: {order?.products.length}</p>
+                <p>Products: {order?.products.map(product => product.productQuantity).reduce((a,b) => a + b)}</p>
                 <p>{order?.address}</p>
                 <p>{order?.amount}$</p>
                 <p>{order?.createdAt.substr(0, 10)}</p>
