@@ -1,12 +1,13 @@
 import React, {FormEvent, useState} from 'react'
 import './Auth.css'
 import { useTypedDispatch } from '../../Redux/Hooks'
-import { authStart, loginSuccess, authFailure } from '../../Redux/userSlice'
+import { authStart, loginSuccess, registerSuccess, authFailure } from '../../Redux/userSlice'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 import { GoogleLogin } from 'react-google-login';
+import { UserType} from '../../Redux/userSlice'
 
 
 
@@ -24,7 +25,6 @@ const Login : React.FC = () => {
         try {
             const res = await axios.post(`/api/auth/login`, {email, password})
             dispatch(loginSuccess(res.data))
-            console.log(res.data)
             navigate(`/`);
         } catch (error: any) {
             const errors = error?.response?.data?.errors;
@@ -40,6 +40,31 @@ const Login : React.FC = () => {
         setEmail('')
         setPassword('')
     }
+
+    const googleLoginSuccess = async (result: any) => {
+        dispatch(authStart())
+        try {
+        const form: UserType = {
+            firstName: result?.profileObj.givenName ,
+            lastName: result?.profileObj.familyName,
+            email: result?.profileObj.email,
+            password: result?.profileObj.googleId,
+        };
+        const response = await axios.get(`/api/users`)
+        const User = response.data?.find((u: any) => u?.email === form?.email)
+        if (!User) {
+            const res = await axios.post(`/api/auth/register`, form)
+            dispatch(registerSuccess(res.data));
+        } else {
+            const res = await axios.post(`/api/auth/login`, {email: User?.email, password: User?.password})
+            dispatch(loginSuccess(res.data));
+        }
+        navigate('/')
+        } catch (error) {
+            console.log(error);
+            dispatch(authFailure())
+        }
+    };
 
 
 return (
@@ -80,7 +105,7 @@ return (
             <GoogleLogin
             clientId="496829602002-2k01fdl4q3l8ljnjgeroqvkq4e6iv2go.apps.googleusercontent.com"
             buttonText="Sign In With Google"
-            //onSuccess={googleSuccess}
+            onSuccess={googleLoginSuccess}
             onFailure={() => console.log('Google Sign In Unsuccessful. Try Again Later')}
             cookiePolicy={'single_host_origin'}
             />

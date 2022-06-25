@@ -12,7 +12,7 @@ import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
 import { useTypedSelector } from './Redux/Hooks'
 import axios from 'axios'
 import { useTypedDispatch } from './Redux/Hooks'
-import { UserType } from './Redux/userSlice';
+import {  UserType } from './Redux/userSlice';
 import  { getUserCart }  from './Redux/cartSlice';
 import ForgotPassword from './pages/auth/forgotPassword/ForgotPassword';
 import PasswordReset from './pages/auth/passwordReset/PasswordReset';
@@ -59,6 +59,7 @@ const App : React.FC = () => {
   useEffect(() => {
     user && user?.verified && getCart()
   }, [user])
+  
 
   if (isLoading) {
     return (

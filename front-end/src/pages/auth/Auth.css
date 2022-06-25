@@ -108,9 +108,3 @@
     margin-top: 20px;
 }
 
-@media (max-width: 600px) {
-    .login-wrapper{
-        width: 80%;
-        height: 50%
-    }
-}
