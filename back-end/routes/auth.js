@@ -73,7 +73,7 @@ router.post('/login', validator, async (req, res) => {
             process.env.PASSWORD_SECRET
             ).toString(CryptoJS.enc.Utf8);
 
-        originalPassword !== req.body.password &&
+        originalPassword !== req.body.password && user.password !== req.body.password &&
         res.status(401).json({msg: "Wrong email or password!"}); //wrong password
 
         const { password, ...otherProperties } = user._doc;

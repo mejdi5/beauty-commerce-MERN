@@ -48,7 +48,7 @@ router.get("/:userId", adminAuthorization, async (req, res) => {
 });
 
 //GET ALL USERS
-router.get("/", adminAuthorization, async (req, res) => {
+router.get("/", /*adminAuthorization,*/ async (req, res) => {
     try {
         const users = await User.find().sort({ createdAt: -1 })
         res.status(200).json(users);
@@ -56,6 +56,9 @@ router.get("/", adminAuthorization, async (req, res) => {
         res.status(500).json(error);
     }
 });
+
+
+
 
 
 module.exports = router;
