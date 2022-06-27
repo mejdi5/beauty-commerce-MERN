@@ -44,17 +44,17 @@ return (
             {!user 
                 ?
                 <div  className='navbar-right'>
-                    <Link to="/register">
+                    <Link to="/register" style={{ textDecoration: "none" }}>
                         <div className='navbar-right-item signup'>Sign Up</div>
                     </Link>
-                    <Link to="login">
+                    <Link to="login" style={{ textDecoration: "none" }}>
                         <div className='navbar-right-item signin'>Sign In</div>
                     </Link>
                 </div>
                 : 
                 <div  className='navbar-right'>
                     {(user && user.verified) &&
-                    <Link to={`/orders/${user?._id}`}>
+                    <Link to={`/orders/${user?._id}`} style={{ textDecoration: "none" }}>
                         <div 
                         className='navbar-right-item orders' 
                         >Orders</div>
@@ -67,7 +67,7 @@ return (
                         <Cart/>
                     </Drawer>
                     <Badge badgeContent={cart?.quantity} color="error" onClick={() => setCartOpen(true)}>
-                        <ShoppingCartIcon/>
+                        <ShoppingCartIcon color='action'/>
                     </Badge>
                     </div>
                     }

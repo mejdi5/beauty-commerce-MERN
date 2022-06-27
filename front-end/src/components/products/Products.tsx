@@ -1,14 +1,19 @@
 import React,{useEffect} from 'react'
 import './Products.css'
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useTypedSelector, useTypedDispatch } from '../../Redux/Hooks'
 import { getCategory, getProducts } from '../../Redux/productSlice';
 import { ProductType } from '../../Redux/productSlice'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
+import {UserType} from "../../Redux/userSlice"
 
-const Products : React.FC = () => {
+interface Props {
+    filterProductsWord: string,
+}
 
+const Products : React.FC<Props> = ({filterProductsWord}) => {
+
+    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const products = useTypedSelector<ProductType[]>(state => state.productSlice.products)
     const sort = useTypedSelector<string>(state => state.productSlice.sort)
     const category = useTypedSelector(state => state.productSlice.category)
@@ -38,9 +43,17 @@ const Products : React.FC = () => {
     }, [category, sort])
 
 
-    const filteredProducts = category
-        ? products
-        : products.slice(0,8)
+    let filteredProducts = 
+    //filter products by title or category
+        products.filter(product => 
+            product.categories.some(cat => cat.toLowerCase().trim().startsWith(filterProductsWord.toLowerCase().trim())) 
+            || 
+            product.title.toLowerCase().trim().startsWith(filterProductsWord.toLowerCase().trim()))
+
+    if ((!category && !user?.isAdmin)) {
+        filteredProducts = filteredProducts.slice(0,8)
+    }
+
 
 return (
 <div className='products-container row-md-8'>

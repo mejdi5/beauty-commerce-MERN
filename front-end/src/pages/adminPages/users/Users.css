@@ -1,0 +1,8 @@
+.users{
+    flex: 4;
+    display: flex;
+}
+
+.users-container {
+    flex: 5
+}

@@ -1,3 +1,11 @@
+.admin-productList {
+    display: flex;
+}
+
+.admin-productList-container{
+    flex: 5
+}
+
 .products-title {
     margin: 20px;
 }
@@ -9,6 +17,8 @@
 
 .filter {
     margin: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .filterText {
@@ -17,7 +27,7 @@
     margin-right: 20px;
 }
 
-.select {
+.filter-input, select {
     padding: 10px;
     margin-right: 20px;
 }

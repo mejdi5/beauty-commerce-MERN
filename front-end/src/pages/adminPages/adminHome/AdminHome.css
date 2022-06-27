@@ -1,0 +1,17 @@
+.admin-home{
+    flex: 4;
+    display: flex;
+}
+
+.admin-home-container {
+    flex: 5
+}
+
+.admin-homeWidgets{
+    display: flex;
+    margin: 20px;
+}
+
+.admin-signout:hover {
+    color: brown;
+}

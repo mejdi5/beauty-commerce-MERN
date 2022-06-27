@@ -47,7 +47,6 @@ const validator = (req, res, next) => {
 
 const isAuthenticated = (req, res, next) => {
     const token = req.headers.token
-    console.log("token", token)
     if (!token) {
         res.status(401).json({ msg: 'No Token!! You are not authenticated' });
     } else {

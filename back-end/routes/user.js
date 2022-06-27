@@ -1,13 +1,39 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const { 
+/*const { 
     isAuthorized, 
     adminAuthorization
-} = require('./middlewares')
+} = require('./middlewares')*/
+
+
+//GET USERS STATISTICS
+router.get("/stats", /*adminAuthorization,*/ async (req, res) => {
+    const date = new Date();
+    const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+    try {
+        const usersStats = await User.aggregate([
+        { $match: { createdAt: { $gte: lastYear } } },
+        {
+            $project: {
+            month: { $month: "$createdAt" },
+            },
+        },
+        {
+            $group: {
+            _id: "$month",
+            total: { $sum: 1 },
+            },
+        },
+        ]);
+        res.status(200).json(usersStats)
+    } catch (error) {
+    res.status(500).json(error);
+    }
+});
 
 
 //EDIT USER
-router.put('/:userId', isAuthorized, async (req, res) => {
+router.put('/:userId', /*isAuthorized,*/ async (req, res) => {
     if (req.body.password) {
         req.body.password = CryptoJS.AES.encrypt(
             req.body.password,
@@ -27,7 +53,7 @@ router.put('/:userId', isAuthorized, async (req, res) => {
 })
 
 //DELETE USER
-router.delete("/:userId", isAuthorized, async (req, res) => {
+router.delete("/:userId", /*isAuthorized,*/ async (req, res) => {
     try {
         const deletedUser = await User.findOneAndDelete({_id: req.params.userId});
             res.status(200).json({msg:"User has been deleted...", deletedUser});
@@ -37,7 +63,7 @@ router.delete("/:userId", isAuthorized, async (req, res) => {
 });
 
 //GET ONE USER
-router.get("/:userId", adminAuthorization, async (req, res) => {
+router.get("/:userId", /*adminAuthorization,*/ async (req, res) => {
     try {
         const user = await User.findOne({_id: req.params.userId});
         const { password, ...otherProperties } = user._doc;
@@ -56,9 +82,6 @@ router.get("/", /*adminAuthorization,*/ async (req, res) => {
         res.status(500).json(error);
     }
 });
-
-
-
 
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Footer from '../../components/footer/Footer'
 import Navbar from '../../components/navbar/Navbar'
 import Products from '../../components/products/Products'
@@ -10,32 +10,40 @@ import { getSort } from '../../Redux/productSlice'
 import { ProductType } from '../../Redux/productSlice'
 import { UserType } from '../../Redux/userSlice'
 import ActivateAccount from '../../components/activateAccount/ActivateAccount'
+import Sidebar from '../../adminComponents/sidebar/Sidebar'
+
+interface Props {
+    filterProductsWord: string,
+    setFilterProductsWord: React.Dispatch<React.SetStateAction<string>>,
+}
 
 
-const ProductList : React.FC = () => {
+const ProductList : React.FC<Props> = ({filterProductsWord, setFilterProductsWord}) => {
 
     const products = useTypedSelector<ProductType[]>(state => state.productSlice.products)
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const category = useTypedSelector(state => state.productSlice.category)
     const dispatch = useTypedDispatch()
     const navigate = useNavigate()
-    
+
 
 return (
-<div className='App'>
-<div>
-    <Navbar/>
+<div className={(user && user.isAdmin) ? 'App admin-productList' : 'App'}>
+{user && user.isAdmin && <Sidebar/>}
+<div className={(user && user.isAdmin) ? 'admin-productList-container' : 'productList-container'}>
+    {(!user || !user.isAdmin ) && <Navbar/>} 
     {(user && !user.verified) && <ActivateAccount/>}
-    <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
+    {(!user || !user.isAdmin ) && <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>} 
     <h1 className='products-title'>{typeof category === 'string' && category?.toUpperCase()}</h1>
     <div className='products-filter'>
         <div className='filter'>
             <span className='filterText'>Filter</span>
-            <select className='select'>
-                <option></option>
-                <option></option>
-                <option></option>
-            </select>
+            <input 
+            className="form-control filter-input"
+            placeholder="Search.."
+            value={filterProductsWord}
+            onChange={e => setFilterProductsWord(e.target.value)}
+            />
         </div>
         <div className='filter'>
             <span className='filterText'>Sort</span>
@@ -47,8 +55,8 @@ return (
             </select>
         </div>
     </div>
-    <Products/>
-    <Footer/>
+    <Products filterProductsWord={filterProductsWord} />
+    {(!user || !user.isAdmin ) && <Footer/>} 
 </div>
 </div>
 )}

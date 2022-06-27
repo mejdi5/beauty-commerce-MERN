@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
 import './App.css';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -16,13 +16,18 @@ import {  UserType } from './Redux/userSlice';
 import  { getUserCart }  from './Redux/cartSlice';
 import ForgotPassword from './pages/auth/forgotPassword/ForgotPassword';
 import PasswordReset from './pages/auth/passwordReset/PasswordReset';
+import AdminHome from './pages/adminPages/adminHome/AdminHome'
+import Users from './pages/adminPages/users/Users';
+import AllOrders from './pages/adminPages/allOrders/AllOrders';
 
 
-const App : React.FC = () => {
+const App: React.FC = () => {
 
   const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
   const isLoading = useTypedSelector(state => state.userSlice.isLoading)
   const dispatch = useTypedDispatch()
+
+  const [filterProductsWord, setFilterProductsWord] = useState("")
 
   const postCart = async () => {
     if (user && user?.verified) {
@@ -72,9 +77,28 @@ const App : React.FC = () => {
   return (
     <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/products/:category" element={user ? <ProductList/> : <Navigate to="/"/>}/>
-          <Route path="/products" element={user ? <ProductList/> : <Navigate to="/"/>}/>
+          <Route path="/" element={(user && user.isAdmin) ? <AdminHome/> : <Home filterProductsWord={filterProductsWord} setFilterProductsWord={setFilterProductsWord} />} />
+          <Route path="/products/:category" element={
+            user 
+            ? 
+            <ProductList 
+            filterProductsWord={filterProductsWord} 
+            setFilterProductsWord={setFilterProductsWord} 
+            /> 
+            : <Navigate to="/"/>
+            }
+            />
+          <Route path="/products" element={
+            user 
+            ? 
+            <ProductList 
+            filterProductsWord={filterProductsWord} 
+            setFilterProductsWord={setFilterProductsWord} 
+            /> 
+            : 
+            <Navigate to="/"/>
+          }
+          />
           <Route path='/product/:productId' element={user ? <Product/> : <Navigate to="/"/>}/>
           <Route path='/orders/:userId' element={(user && user?.verified) ? <Orders/> : <Navigate to="/"/>}/>
           <Route path='/order/:orderId' element={(user && user?.verified) ? <Order/> : <Navigate to="/"/>}/>
@@ -83,9 +107,13 @@ const App : React.FC = () => {
           <Route path="/verify/:id/:token" element={<EmailVerify />} />
           <Route path='/forgot-password' element={user ? <Navigate to="/"/> : <ForgotPassword/>}/>
           <Route path='/password-reset/:id/:token' element={user ? <Navigate to="/"/> : <PasswordReset/>}/>
+          <Route path="/users" element={(user && user.isAdmin) ? <Users/> : <Navigate to="/"/>} /> 
+          <Route path="/allOrders" element={(user && user.isAdmin) ? <AllOrders/> : <Navigate to="/"/>} />
         </Routes>
     </BrowserRouter>
-  );
+  )
 }
+
+
 
 export default App;

@@ -102,13 +102,20 @@ return (
         </div>
         <div className='or'>OR</div>
         <div className='google-login'>
+            {
+            process.env.REACT_APP_DEV_CLIENT_ID && process.env.REACT_APP_PROD_CLIENT_ID &&
             <GoogleLogin
-            clientId="496829602002-2k01fdl4q3l8ljnjgeroqvkq4e6iv2go.apps.googleusercontent.com"
-            buttonText="Sign In With Google"
+            clientId={
+                process.env.NODE_ENV === 'development' 
+                ? process.env.REACT_APP_DEV_CLIENT_ID
+                : process.env.REACT_APP_PROD_CLIENT_ID
+            }
+            buttonText="Login with Google"
             onSuccess={googleLoginSuccess}
             onFailure={() => console.log('Google Sign In Unsuccessful. Try Again Later')}
             cookiePolicy={'single_host_origin'}
             />
+            }
         </div>
     </div>
     

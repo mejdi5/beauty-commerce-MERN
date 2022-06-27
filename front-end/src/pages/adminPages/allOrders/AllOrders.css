@@ -1,0 +1,8 @@
+.allOrders{
+    flex: 4;
+    display: flex;
+}
+
+.allOrders-container {
+    flex: 5
+}

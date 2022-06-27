@@ -7,7 +7,8 @@ export interface UserType {
     email: String,
     password: String,
     isAdmin?: Boolean,
-    verified?: Boolean
+    verified?: Boolean,
+    image?: string
 }
 
 interface State {

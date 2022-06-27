@@ -32,7 +32,7 @@ const Product : React.FC = () => {
             const editedCart = {
                 ...cart, 
                 cartProducts: 
-                cart.cartProducts.some(item => item?.product?._id === addedProduct?.product?._id) 
+                cart.cartProducts.some((item: any) => item?.product?._id === addedProduct?.product?._id) 
                 ? cart.cartProducts.map(item => 
                     item?.product?._id === addedProduct?.product?._id
                     ? {...item, productQuantity: item?.productQuantity + addedProduct?.productQuantity}
@@ -58,7 +58,7 @@ const Product : React.FC = () => {
 return (
 <div className='App'>
 <div>
-    <Navbar/>
+    {(!user || !user.isAdmin ) && <Navbar/>}
     {(user && !user.verified) && <ActivateAccount/>}
     <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <div className='product-wrapper'>
@@ -68,7 +68,7 @@ return (
             <span className='product-price'>{product?.price}$</span>
             <p className='product-description'>{product?.description}</p>
         </div>
-        {user && user.verified && 
+        {user && user.verified && !user.isAdmin &&
         <div className='product-amount'>
         <div className='amount'>
             <div className='set-amount' onClick={() => productNumber > 1 && setProductNumber(productNumber - 1)}><RemoveIcon/></div>
@@ -85,7 +85,7 @@ return (
         </div>
         }
     </div>
-    <Footer/>
+    {(!user || !user.isAdmin ) && <Footer/>}
 </div>
 </div>
 )}

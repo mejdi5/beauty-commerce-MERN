@@ -34,11 +34,13 @@ return (
     <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <div className="container-fluid">
     <h1 className='order-title'>All Orders</h1>
-    {orders?.map(order => 
+    {orders && orders.length > 0
+    ?
+    orders?.map(order => 
         <ul className="list-group" key={order?._id}>
             <Link to={`/order/${order?._id}`}>
             <li className="list-group-item">
-                <p>Products: {order?.products.map(product => product.productQuantity).reduce((a,b) => a + b)}</p>
+                <p>Products: {order.products.length > 0 && order?.products?.map(product => product.productQuantity)?.reduce((a,b) => a + b)}</p>
                 <p>{order?.address}</p>
                 <p>{order?.amount}$</p>
                 <p>{order?.createdAt.substr(0, 10)}</p>
@@ -46,7 +48,9 @@ return (
             </li>
             </Link>
         </ul>
-    )}
+    ):
+    <div>You have no orders</div>
+    }
 </div>
 </div>
 
