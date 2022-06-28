@@ -10,6 +10,7 @@ ResponsiveContainer,
 } from "recharts";
 import { UserStatsType } from '../../pages/adminPages/adminHome/AdminHome'
 
+
 interface Props {
     data: UserStatsType[],
     dataKey: any,

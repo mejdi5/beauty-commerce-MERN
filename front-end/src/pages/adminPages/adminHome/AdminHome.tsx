@@ -2,12 +2,9 @@ import React, {useEffect, useMemo, useState} from 'react'
 import Chart from "../../../adminComponents/chart/Chart";
 import FeaturedInfo from "../../../adminComponents/featuredInfo/FeaturedInfo";
 import "./AdminHome.css";
-import { userData } from "../../../DummyData";
 import Members from "../../../adminComponents/members/Members";
 import Transactions from "../../../adminComponents/transactions/Transactions";
 import axios from 'axios'
-import { logoutUser, UserType } from '../../../Redux/userSlice';
-import { useTypedSelector } from '../../../Redux/Hooks'
 import Sidebar from '../../../adminComponents/sidebar/Sidebar';
 
 
@@ -19,7 +16,6 @@ export interface UserStatsType {
 const AdminHome : React.FC = () => {
 
     const [userStats, setUserStats] = useState<UserStatsType[]>([]);
-    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
 
 const MONTHS = useMemo(
     () => [
@@ -64,12 +60,14 @@ return (
 <div className="admin-home">
   <Sidebar/>
   <div className="admin-home-container">
-    <FeaturedInfo />
-    <Chart
+    <div className='admin-homeSales'>
+      <FeaturedInfo />
+      <Chart
         data={userStats}
         grid
         dataKey="Active User"
-    />
+      />
+    </div>
     <div className="admin-homeWidgets">
         <Members />
         <Transactions />

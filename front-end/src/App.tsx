@@ -77,7 +77,17 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
         <Routes>
-          <Route path="/" element={(user && user.isAdmin) ? <AdminHome/> : <Home filterProductsWord={filterProductsWord} setFilterProductsWord={setFilterProductsWord} />} />
+
+          <Route path="/" element={(user && user.isAdmin) 
+            ? 
+            <AdminHome/> 
+            : 
+            <Home 
+            filterProductsWord={filterProductsWord} 
+            setFilterProductsWord={setFilterProductsWord} 
+            />} 
+          />
+
           <Route path="/products/:category" element={
             user 
             ? 
@@ -88,6 +98,7 @@ const App: React.FC = () => {
             : <Navigate to="/"/>
             }
             />
+
           <Route path="/products" element={
             user 
             ? 
@@ -99,16 +110,81 @@ const App: React.FC = () => {
             <Navigate to="/"/>
           }
           />
-          <Route path='/product/:productId' element={user ? <Product/> : <Navigate to="/"/>}/>
-          <Route path='/orders/:userId' element={(user && user?.verified) ? <Orders/> : <Navigate to="/"/>}/>
-          <Route path='/order/:orderId' element={(user && user?.verified) ? <Order/> : <Navigate to="/"/>}/>
-          <Route path='/login' element={user ? <Navigate to="/"/> : <Login/>}/>
-          <Route path='/register' element={user ? <Navigate to="/"/> : <Register/>}/>
+
+          <Route path='/product/:productId' element={
+            user 
+            ? 
+            <Product/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path='/orders/:userId' element={
+            (user && user?.verified) 
+            ? 
+            <Orders/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path='/order/:orderId' element={
+            (user && user?.verified) 
+            ? 
+            <Order/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path='/login' element={
+            user 
+            ? 
+            <Navigate to="/"/> 
+            : 
+            <Login/>
+          }/>
+
+          <Route path='/register' element={
+            user 
+            ? 
+            <Navigate to="/"/> 
+            : 
+            <Register/>
+          }/>
+
           <Route path="/verify/:id/:token" element={<EmailVerify />} />
-          <Route path='/forgot-password' element={user ? <Navigate to="/"/> : <ForgotPassword/>}/>
-          <Route path='/password-reset/:id/:token' element={user ? <Navigate to="/"/> : <PasswordReset/>}/>
-          <Route path="/users" element={(user && user.isAdmin) ? <Users/> : <Navigate to="/"/>} /> 
-          <Route path="/allOrders" element={(user && user.isAdmin) ? <AllOrders/> : <Navigate to="/"/>} />
+
+          <Route path='/forgot-password' element={
+            user 
+            ? 
+            <Navigate to="/"/> 
+            : 
+            <ForgotPassword/>
+          }/>
+
+          <Route path='/password-reset/:id/:token' element={
+            user 
+            ? 
+            <Navigate to="/"/> 
+            : 
+            <PasswordReset/>
+          }/>
+
+          <Route path="/users" element={
+            (user && user.isAdmin) 
+            ? 
+            <Users/> 
+            : 
+            <Navigate to="/"/>
+          }/> 
+
+          <Route path="/allOrders" element={
+            (user && user.isAdmin) 
+            ? 
+            <AllOrders/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+          
         </Routes>
     </BrowserRouter>
   )

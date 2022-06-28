@@ -13,7 +13,6 @@ const Members : React.FC = () => {
     const getUsers = async () => {
         try {
         const res = await axios.get("/api/users"); 
-        console.log('users', users)
         setUsers(res.data);
         } catch (error) {
             console.log(error.message)

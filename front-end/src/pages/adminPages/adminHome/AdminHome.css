@@ -4,14 +4,19 @@
 }
 
 .admin-home-container {
-    flex: 5
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.admin-homeSales {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .admin-homeWidgets{
     display: flex;
     margin: 20px;
-}
-
-.admin-signout:hover {
-    color: brown;
 }

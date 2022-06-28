@@ -20,7 +20,6 @@ useEffect(() => {
     getOrders();
 }, []);
 
-console.log(orders)
 
 return (
 <div className="transactions">

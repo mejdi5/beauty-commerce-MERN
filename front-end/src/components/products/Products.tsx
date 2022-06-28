@@ -59,6 +59,7 @@ return (
 <div className='products-container row-md-8'>
     {filteredProducts.map((product:ProductType, index )=> (
         <div className='product-wrapper' key={index}>
+            <small>{product.categories.join(' / ').toUpperCase()}</small>
             <div className='product-title'>{product.title}</div>
             <Link to={`/product/${product._id}`}>
                 <img src={product.image} className='product-image'/>
