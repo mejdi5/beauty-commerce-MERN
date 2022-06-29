@@ -59,32 +59,10 @@ const isAuthenticated = (req, res, next) => {
     }
 }
 
-const isAuthorized = (req, res, next) => {
-    isAuthenticated(req, res, () => {
-        if (req.user.id === req.params.userId || req.user.isAdmin) {
-            next()
-        } else {
-            res.status(403).json({msg: "You are not alowed to do that!"});
-        }
-    })
-}
-
-const adminAuthorization = (req, res, next) => {
-    isAuthenticated(req, res, () => {
-        if (req.user.isAdmin) {
-            next()
-        } else {
-            res.status(403).json({msg: "Only admin is alowed to do that!"});
-        }
-    })
-}
-
 module.exports = { 
     nameValidation, 
     emailValidation, 
     passwordValidation,
     validator,
     isAuthenticated,
-    isAuthorized,
-    adminAuthorization 
 };

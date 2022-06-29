@@ -1,13 +1,17 @@
 const router = require("express").Router();
 const User = require("../models/User");
-/*const { 
-    isAuthorized, 
-    adminAuthorization
-} = require('./middlewares')*/
+const CryptoJS = require("crypto-js");
+const { validate } = require('deep-email-validator');
+const { 
+    nameValidation, 
+    emailValidation, 
+    passwordValidation,
+    validator,
+} = require('./middlewares')
 
 
 //GET USERS STATISTICS
-router.get("/stats", /*adminAuthorization,*/ async (req, res) => {
+router.get("/stats", async (req, res) => {
     const date = new Date();
     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
     try {
@@ -31,9 +35,36 @@ router.get("/stats", /*adminAuthorization,*/ async (req, res) => {
     }
 });
 
+//POST NEW User (for admin)
+router.post("/", nameValidation, emailValidation, passwordValidation , validator, async (req, res) => {
+    const newUser = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        image: req.body.image,
+        isAdmin: req.body.isAdmin,
+        verified: true,
+        password: CryptoJS.AES.encrypt(
+            req.body.password, 
+            process.env.PASSWORD_SECRET
+            ).toString()
+    });
+
+    try {
+        const savedUser = await newUser.save();
+        const newToken = await new Token({
+            userId: savedUser._id,
+            isAdmin: savedUser.isAdmin,
+            token: crypto.randomBytes(32).toString("hex"),
+        }).save();
+        res.status(200).json({savedUser, token: newToken});
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 
 //EDIT USER
-router.put('/:userId', /*isAuthorized,*/ async (req, res) => {
+router.put('/:userId', nameValidation, passwordValidation , validator, async (req, res) => {
     if (req.body.password) {
         req.body.password = CryptoJS.AES.encrypt(
             req.body.password,
@@ -41,6 +72,15 @@ router.put('/:userId', /*isAuthorized,*/ async (req, res) => {
         ).toString();
     }
     try {
+        if(req.body.email) {
+            const emailValidator = await validate(req.body.email)
+            const isValid = emailValidator.valid
+            let existingUser = await User.findOne({ email: req.body.email });
+            !isValid && 
+                res.status(400).json({msg: 'Email is not valid'})
+            (existingUser && existingUser._id !== req.params.userId) && 
+                res.status(400).json({ msg: 'this email already exists' });
+        }
         const editedUser = await User.findOneAndUpdate(
             req.params.userId, 
             {$set: req.body}, 
@@ -53,17 +93,17 @@ router.put('/:userId', /*isAuthorized,*/ async (req, res) => {
 })
 
 //DELETE USER
-router.delete("/:userId", /*isAuthorized,*/ async (req, res) => {
+router.delete("/:userId", async (req, res) => {
     try {
         const deletedUser = await User.findOneAndDelete({_id: req.params.userId});
-            res.status(200).json({msg:"User has been deleted...", deletedUser});
+            res.status(200).json({msg:`${deletedUser.firstName} ${deletedUser.lastName} has been deleted...}`, deletedUser});
     } catch (error) {
         res.status(500).json(error);
     }
 });
 
 //GET ONE USER
-router.get("/:userId", /*adminAuthorization,*/ async (req, res) => {
+router.get("/:userId", async (req, res) => {
     try {
         const user = await User.findOne({_id: req.params.userId});
         const { password, ...otherProperties } = user._doc;
@@ -74,9 +114,12 @@ router.get("/:userId", /*adminAuthorization,*/ async (req, res) => {
 });
 
 //GET ALL USERS
-router.get("/", /*adminAuthorization,*/ async (req, res) => {
+router.get("/", async (req, res) => {
+    const query = req.query.new;
     try {
-        const users = await User.find().sort({ createdAt: -1 })
+        const users = query
+        ? await User.find().sort({ createdAt: -1 }).limit(5)
+        : await User.find().sort({ createdAt: -1 })
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json(error);

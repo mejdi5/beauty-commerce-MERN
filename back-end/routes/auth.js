@@ -10,7 +10,6 @@ const {
     emailValidation, 
     passwordValidation,
     validator,
-    isAuthenticated 
 } = require('./middlewares')
 
 

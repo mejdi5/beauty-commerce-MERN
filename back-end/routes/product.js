@@ -1,14 +1,9 @@
 const router = require("express").Router();
 const Product = require("../models/Product");
-const { 
-    isAuthenticated, 
-    isAuthorized, 
-    adminAuthorization
-} = require('./middlewares')
 
 
 //POST NEW PRODUCT
-router.post("/", adminAuthorization, async (req, res) => {
+router.post("/", async (req, res) => {
     const newProduct = new Product(req.body);
     try {
         const savedProduct = await newProduct.save();
@@ -19,7 +14,7 @@ router.post("/", adminAuthorization, async (req, res) => {
 });
 
 //EDIT PRODUCT
-router.put("/:productId", adminAuthorization, async (req, res) => {
+router.put("/:productId", async (req, res) => {
     try {
         const editedProduct = await Product.findOneAndUpdate(
             req.params.productId,
@@ -33,7 +28,7 @@ router.put("/:productId", adminAuthorization, async (req, res) => {
 });
 
 //DELETE PRODUCT
-router.delete("/:productId", adminAuthorization, async (req, res) => {
+router.delete("/:productId", async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete({_id : req.params.productId});
         res.status(200).json({msg: "Product has been deleted...", deletedProduct});

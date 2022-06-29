@@ -1,10 +1,6 @@
 const router = require("express").Router();
 const Order = require("../models/Order");
-const { 
-    isAuthenticated, 
-    isAuthorized, 
-    adminAuthorization
-} = require('./middlewares')
+
 
 //GET MONTHLY INCOME
 router.get("/income", async (req, res) => {
@@ -43,7 +39,7 @@ router.get("/income", async (req, res) => {
 
 
 //POST NEW ORDER
-router.post("/", /*isAuthenticated,*/ async (req, res) => {
+router.post("/", async (req, res) => {
     const newOrder = new Order(req.body);
     try {
         const savedOrder = await newOrder.save();
@@ -54,7 +50,7 @@ router.post("/", /*isAuthenticated,*/ async (req, res) => {
 });
 
 //EDIT AN ORDER
-router.put("/:orderId", /*adminAuthorization,*/ async (req, res) => {
+router.put("/:orderId", async (req, res) => {
     try {
     const editedOrder = await Order.findOneAndUpdate(
         req.params.orderId,
@@ -68,7 +64,7 @@ router.put("/:orderId", /*adminAuthorization,*/ async (req, res) => {
 });
 
 //DELETE
-router.delete("/:orderId", /*adminAuthorization,*/ async (req, res) => {
+router.delete("/:orderId", async (req, res) => {
     try {
         await Order.findOneAndDelete({ _id: req.params.orderId });
         res.status(200).json("Order has been deleted...");
@@ -88,7 +84,7 @@ router.get("/:userId", /*isAuthorized,*/ async (req, res) => {
 });
 
 //GET ALL ORDERS
-router.get("/",/* adminAuthorization,*/ async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const orders = await Order.find().sort({createdAt: -1});
         res.status(200).json(orders);

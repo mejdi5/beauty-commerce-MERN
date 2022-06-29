@@ -1,15 +1,8 @@
 const router = require("express").Router();
 const Cart = require("../models/Cart");
-const { 
-    isAuthenticated, 
-    isAuthorized, 
-    adminAuthorization
-} = require('./middlewares')
-
-const Product = require('../models/Product')
 
 //POST NEW CART
-router.post("/", /*isAuthenticated,*/ async (req, res) => {
+router.post("/", async (req, res) => {
     const { userId } = req.body
     const newCart = new Cart({userId});
     try {
@@ -21,7 +14,7 @@ router.post("/", /*isAuthenticated,*/ async (req, res) => {
 });
 
 //EDIT CART
-router.put("/:cartId", /*isAuthorized,*/ async (req, res) => {
+router.put("/:cartId", async (req, res) => {
     try {
     const editedCart = await Cart.findByIdAndUpdate(
         req.params.cartId,
@@ -41,7 +34,7 @@ router.put("/:cartId", /*isAuthorized,*/ async (req, res) => {
 });
 
 //DELETE CART
-router.delete("/:cartId", isAuthorized, async (req, res) => {
+router.delete("/:cartId", async (req, res) => {
     try {
     await Cart.findByIdAndDelete({_id: req.params.cartId});
         res.status(200).json("Cart has been deleted...");
@@ -51,7 +44,7 @@ router.delete("/:cartId", isAuthorized, async (req, res) => {
 });
 
 //GET CART of a user
-router.get("/:userId", /*isAuthorized,*/ async (req, res) => {
+router.get("/:userId", async (req, res) => {
     try {
         const cart = await Cart.findOne({userId: req.params.userId});
         res.status(200).json(cart)
@@ -61,7 +54,7 @@ router.get("/:userId", /*isAuthorized,*/ async (req, res) => {
 })
 
 //GET ALL CARTS
-router.get("/", adminAuthorization, async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const carts = await Cart.find();
         res.status(200).json(carts);
