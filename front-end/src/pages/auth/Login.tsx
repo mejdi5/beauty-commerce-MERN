@@ -114,6 +114,7 @@ return (
             onSuccess={googleLoginSuccess}
             onFailure={() => console.log('Google Sign In Unsuccessful. Try Again Later')}
             cookiePolicy={'single_host_origin'}
+            theme='dark'
             />
             }
         </div>

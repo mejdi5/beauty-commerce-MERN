@@ -1,13 +1,12 @@
-.allOrders{
-    flex: 4;
+.allProducts{
     display: flex;
 }
 
-.allOrders-container {
+.allProducts-container {
     flex: 5
 }
 
-.orderUserImg {
+.admin-productImg {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -15,23 +14,18 @@
     margin-right: 10px;
 }
 
-.order-action {
+.product-action {
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
-.order-edit{
+.product-edit{
     color: green;
     cursor: pointer;
 }
 
-.order-visibility {
-    color: blue;
-    cursor: pointer;
-}
-
-.order-delete{
+.product-delete{
     color: red;
     cursor: pointer;
 }

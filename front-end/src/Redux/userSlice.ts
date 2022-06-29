@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserType {
     _id?: String,
-    firstName: String,
-    lastName: String | undefined,
-    email: String,
-    password: String,
+    firstName: string,
+    lastName: string | undefined,
+    email: string,
+    password: string,
     isAdmin?: Boolean,
     verified?: Boolean,
     image?: string
@@ -16,6 +16,7 @@ interface State {
     msg: String | null,
     user: UserType | null,
     isLoading: Boolean,
+    users: UserType[] | never[]
 }
 
 
@@ -26,6 +27,7 @@ const userSlice = createSlice({
         msg: null,
         user: null, 
         isLoading: false,
+        users: []
     },
     reducers: {
         authStart : (state: State) => {
@@ -57,6 +59,10 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.token = null;
             state.user = null
+        },
+
+        getAllUsers: (state: State, action: PayloadAction<UserType[]>) => {
+            state.users = action.payload
         }
     }
 })
@@ -70,6 +76,7 @@ export const { authStart,
     authFailure,
     getVerifiedUser,
     logoutUser,
+    getAllUsers,
 } = actions;
 
 export default reducer

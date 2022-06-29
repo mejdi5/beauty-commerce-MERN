@@ -7,33 +7,35 @@ import { OrderType } from '../../Redux/orderSlice';
 import { CartProduct } from '../../Redux/cartSlice';
 import StripeCheckout from "react-stripe-checkout";
 import axios from 'axios'
-import { getOrder } from '../../Redux/orderSlice';
+import { getOrder, getOrders } from '../../Redux/orderSlice';
+import { UserType } from '../../Redux/userSlice';
 
 const Order : React.FC = () => {
 
     const navigate = useNavigate() 
+    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const orders = useTypedSelector<OrderType[] | null>(state => state.orderSlice.orders)
     const orderId = useParams().orderId
     const order = orders?.find(order => order._id === orderId)
     const [stripeToken, setStripeToken] = useState<any>(null);
     const dispatch = useTypedDispatch()
 
-    const setPaidOrder = async () => {
-        try {
-            const res = await axios.put(`/api/orders/${orderId}`, {status: 'paid'})
-            dispatch(getOrder(res.data))
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
+    
     const handleToken: StripeCheckout['props']['token'] = (token) => {
         setStripeToken(token)
     }
-    console.log('stripeToken', stripeToken)
     
     
     useEffect(() => {
+        const setPaidOrder = async () => {
+            try {
+                const res = await axios.put(`/api/orders/${orderId}`, {status: 'paid'})
+                dispatch(getOrder(res.data))
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    
         const makePayment = async () => {
         if (stripeToken) {
             try {
@@ -41,15 +43,17 @@ const Order : React.FC = () => {
                     tokenId: stripeToken?.id,
                     amount: order?.amount,
                 });
-                console.log('res.data', res.data)
                 setPaidOrder()
+                const response = await axios.get(`/api/orders/${user?._id}`)
+                dispatch(getOrders(res.data))
             } catch (error) {
                 console.log(error)
             }
         }
         };
+
         stripeToken && makePayment();
-    }, [stripeToken, order?.amount]);
+    }, [stripeToken, order]);
 
 
 return (
@@ -75,18 +79,19 @@ return (
         )}
             <div className='order-footer'>
                 <h2>Total Price: {order?.amount}$</h2>
-                {order?.status !== 'paid' 
+                {user && !user.isAdmin && process.env.REACT_APP_STRIPE_PUBLIC_KEY &&
+                (order?.status !== 'paid' 
                 ? 
                     <StripeCheckout
                     name="SHOP"
                     currency="USD"
                     description={`Your total is $${order?.amount}`}
                     token={handleToken}
-                    stripeKey='pk_test_51LCvZ0Joau4C3cg0NnbWAzIZlzVcFSMxg64k4av2Xm2cKSSY4cFlFY5QQ3JyWOoGWCVLe2jffVCxquFRpfEnbiya00piblEe3q' //stripe public key
+                    stripeKey={process.env.REACT_APP_STRIPE_PUBLIC_KEY} //stripe public key
                     />
                 : 
                 <p className='order-paid'>Order Paid</p>
-                }
+                )}
             </div>
         </div>
     </div>

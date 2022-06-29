@@ -6,7 +6,7 @@ Line,
 XAxis,
 CartesianGrid,
 Tooltip,
-ResponsiveContainer,
+ResponsiveContainer
 } from "recharts";
 import { UserStatsType } from '../../pages/adminPages/adminHome/AdminHome'
 

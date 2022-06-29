@@ -48,7 +48,7 @@ return (
                 <span>Users</span>
             </li>
         </Link>
-        <Link to="/products" style={{ textDecoration: "none" }}>
+        <Link to="/allProducts" style={{ textDecoration: "none" }}>
             <li>
                 <StoreIcon className="icon" />
                 <span>Products</span>
@@ -60,10 +60,6 @@ return (
             <span>Orders</span>
         </li>
         </Link>
-        <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-        </li>
         
         <p className="title">USER</p>
         <li>

@@ -19,6 +19,9 @@ import PasswordReset from './pages/auth/passwordReset/PasswordReset';
 import AdminHome from './pages/adminPages/adminHome/AdminHome'
 import Users from './pages/adminPages/users/Users';
 import AllOrders from './pages/adminPages/allOrders/AllOrders';
+import AllProducts from './pages/adminPages/allProducts/AllProducts'
+import EditUser from './pages/adminPages/users/EditUser';
+import AddUser from './pages/adminPages/users/AddUser';
 
 
 const App: React.FC = () => {
@@ -65,7 +68,7 @@ const App: React.FC = () => {
     user && user?.verified && getCart()
   }, [user])
   
-
+/*
   if (isLoading) {
     return (
       <div className="spinner-border" role="status" >
@@ -73,7 +76,7 @@ const App: React.FC = () => {
       </div>
     );
   }
-
+*/
   return (
     <BrowserRouter>
         <Routes>
@@ -177,10 +180,34 @@ const App: React.FC = () => {
             <Navigate to="/"/>
           }/> 
 
+          <Route path="/newUser" element={
+            (user && user.isAdmin) 
+            ? 
+            <AddUser/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/user/:userId" element={
+            (user && user.isAdmin) 
+            ? 
+            <EditUser/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
           <Route path="/allOrders" element={
             (user && user.isAdmin) 
             ? 
             <AllOrders/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/allProducts" element={
+            (user && user.isAdmin) 
+            ? 
+            <AllProducts/> 
             : 
             <Navigate to="/"/>
           }/>

@@ -26,7 +26,7 @@ const Orders : React.FC = () => {
         }
     }}
     (user && user?.verified) && fetchOrders()
-    }, [])
+    }, [orders])
     
 
 return (

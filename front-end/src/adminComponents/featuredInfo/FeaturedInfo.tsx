@@ -13,7 +13,6 @@ const FeaturedInfo: React.FC = () => {
     const getIncome = async () => {
       try {
         const res = await axios.get("/api/orders/income");
-        console.log(res.data)
         setIncome(res.data);
         setPercentage(res.data.length > 1 ? (res.data[1].total * 100) / res.data[0].total - 100 : 0);
       } catch (error) {

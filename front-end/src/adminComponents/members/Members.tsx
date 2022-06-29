@@ -1,19 +1,21 @@
 import "./Members.css";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from 'axios'
-import { UserType } from "../../Redux/userSlice";
+import { getAllUsers, UserType } from "../../Redux/userSlice";
+import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 
 
 const Members : React.FC = () => {
 
-    const [users, setUsers] = useState<UserType[]>([]);
+    const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
+    const dispatch = useTypedDispatch()
 
     useEffect(() => {
     const getUsers = async () => {
         try {
-        const res = await axios.get("/api/users"); 
-        setUsers(res.data);
+        const res = await axios.get("/api/users?new=true"); 
+        dispatch(getAllUsers(res.data));
         } catch (error) {
             console.log(error.message)
         }
@@ -25,7 +27,7 @@ return (
 <div className="members">
     <span className="membersTitle">Members</span>
     <ul className="membersList">
-        {users.filter(user => !user.isAdmin).map((user, index) => (
+        {users.filter((user: UserType) => !user.isAdmin).map((user, index) => (
         <li className="membersListItem" key={index}>
             {user?.image 
             ? <img
