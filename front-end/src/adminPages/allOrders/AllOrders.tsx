@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import "./AllOrders.css"
-import Sidebar from '../../../adminComponents/sidebar/Sidebar'
+import Sidebar from '../../adminComponents/sidebar/Sidebar'
 import { DataGrid } from '@mui/x-data-grid';
-import { getAllUsers, UserType } from '../../../Redux/userSlice';
-import { getOrders } from '../../../Redux/orderSlice'
-import { OrderType } from '../../../Redux/orderSlice';
+import { getAllUsers, UserType } from '../../Redux/userSlice';
+import { getOrders } from '../../Redux/orderSlice'
+import { OrderType } from '../../Redux/orderSlice';
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
+import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 
 
 const AllOrders: React.FC = () => {

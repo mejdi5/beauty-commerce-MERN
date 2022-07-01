@@ -1,36 +1,32 @@
 import React,{FormEvent, useState, useEffect, KeyboardEvent} from 'react'
 import "./AllProducts.css"
-import Sidebar from '../../../adminComponents/sidebar/Sidebar'
-import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
+import Sidebar from '../../adminComponents/sidebar/Sidebar'
+import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ProductType } from '../../../Redux/productSlice';
+import { ProductType } from '../../Redux/productSlice';
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const EditProduct = () => {
+const AddProduct = () => {
 
-    const products = useTypedSelector<ProductType[] | never[]>(state => state.productSlice.products)
-    const productId = useParams().productId
-    const productToEdit = products && products.find((product: ProductType) => product?._id === productId)
-
-    const [title, setTitle] = useState(productToEdit?.title || '')
-    const [description, setDescription] = useState(productToEdit?.description || '')
-    const [image, setImage] = useState(productToEdit?.image || '')
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [image, setImage] = useState('')
     const [category, setCategory] = useState<string | null>(null)
-    const [categories, setCategories] = useState<string[] | never[]>(productToEdit?.categories || [])
-    const [price, setPrice] = useState(productToEdit?.price || 0)
-    const [inStock, setInStock] = useState<boolean>(productToEdit?.inStock || true)
+    const [categories, setCategories] = useState<string[] | never[]>([])
+    const [price, setPrice] = useState(0)
+    const [inStock, setInStock] = useState(true)
     const navigate = useNavigate() 
     const [msg, setMsg] = useState<string | null>(null)
 
-    const handleEditProduct = async (e: FormEvent) => {
+    const handleAddProduct = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            const editedProduct = {title, description, image, categories, price, inStock}
-            const res = await axios.put(`/api/products/${productId}`, editedProduct)
+            const newProduct = {title, description, image, categories, price, inStock}
+            const res = await axios.post(`/api/products`, newProduct)
             setMsg(res.data.msg)
         } catch (error) {
             console.log(error)
@@ -39,6 +35,7 @@ const EditProduct = () => {
         setDescription('')
         setImage('')
         setCategories([])
+        setCategory('')
         setPrice(0)
         setInStock(true)
         setTimeout(() => navigate(-1), 1500)
@@ -50,8 +47,8 @@ return (
 <div className="add-edit-product">
     <Sidebar/>
     <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
-    <div className="edit-product-container">
-        {msg && <div className='edit-product-msg'>{msg}</div>}
+    <div className="add-product-container">
+        {msg && <div className='add-product-msg'>{msg}</div>}
         <div className="form-group add-edit-product-form-group">
             <label className="form-group add-edit-product-label">Title</label>
             <input 
@@ -138,10 +135,10 @@ return (
         <button 
         type="submit" 
         className="btn btn-primary"
-        onClick={e => handleEditProduct(e)}
+        onClick={e => handleAddProduct(e)}
         >Submit</button>
     </div>
 </div>
 )}
 
-export default EditProduct
+export default AddProduct

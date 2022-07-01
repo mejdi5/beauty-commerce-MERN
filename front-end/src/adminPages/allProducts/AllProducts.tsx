@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import "./AllProducts.css"
-import Sidebar from '../../../adminComponents/sidebar/Sidebar'
+import Sidebar from '../../adminComponents/sidebar/Sidebar'
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
-import { ProductType, getProducts } from '../../../Redux/productSlice';
+import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { ProductType, getProducts } from '../../Redux/productSlice';
 import AddIcon from '@mui/icons-material/Add';
 
 

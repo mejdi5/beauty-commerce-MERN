@@ -1,11 +1,11 @@
 import React, {useEffect, useMemo, useState} from 'react'
-import Chart from "../../../adminComponents/chart/Chart";
-import FeaturedInfo from "../../../adminComponents/featuredInfo/FeaturedInfo";
+import Chart from "../../adminComponents/chart/Chart";
+import FeaturedInfo from "../../adminComponents/featuredInfo/FeaturedInfo";
 import "./AdminHome.css";
-import Members from "../../../adminComponents/members/Members";
-import Transactions from "../../../adminComponents/transactions/Transactions";
+import Members from "../../adminComponents/members/Members";
+import Transactions from "../../adminComponents/transactions/Transactions";
 import axios from 'axios'
-import Sidebar from '../../../adminComponents/sidebar/Sidebar';
+import Sidebar from '../../adminComponents/sidebar/Sidebar';
 
 
 export interface UserStatsType {

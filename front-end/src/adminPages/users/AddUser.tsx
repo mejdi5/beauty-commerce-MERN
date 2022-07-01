@@ -1,11 +1,11 @@
 import React,{FormEvent, useState} from 'react'
 import "./Users.css"
-import Sidebar from '../../../adminComponents/sidebar/Sidebar'
-import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
+import Sidebar from '../../adminComponents/sidebar/Sidebar'
+import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import { getAllUsers, registerSuccess } from '../../../Redux/userSlice'
+import { getAllUsers, registerSuccess } from '../../Redux/userSlice'
 
 
 const AddUser = () => {

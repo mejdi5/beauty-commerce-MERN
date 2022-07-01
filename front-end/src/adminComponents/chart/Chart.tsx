@@ -8,7 +8,7 @@ CartesianGrid,
 Tooltip,
 ResponsiveContainer
 } from "recharts";
-import { UserStatsType } from '../../pages/adminPages/adminHome/AdminHome'
+import { UserStatsType } from '../../adminPages/adminHome/AdminHome'
 
 
 interface Props {

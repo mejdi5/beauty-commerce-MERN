@@ -1,8 +1,8 @@
 import React,{FormEvent, useState} from 'react'
 import "./Users.css"
-import Sidebar from '../../../adminComponents/sidebar/Sidebar'
-import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
-import { getOneUser, UserType } from '../../../Redux/userSlice';
+import Sidebar from '../../adminComponents/sidebar/Sidebar'
+import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { getOneUser, UserType } from '../../Redux/userSlice';
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';

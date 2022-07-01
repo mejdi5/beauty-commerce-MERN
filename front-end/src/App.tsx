@@ -16,15 +16,15 @@ import {  UserType } from './Redux/userSlice';
 import  { getUserCart }  from './Redux/cartSlice';
 import ForgotPassword from './pages/auth/forgotPassword/ForgotPassword';
 import PasswordReset from './pages/auth/passwordReset/PasswordReset';
-import AdminHome from './pages/adminPages/adminHome/AdminHome'
-import Users from './pages/adminPages/users/Users';
-import AllOrders from './pages/adminPages/allOrders/AllOrders';
-import AllProducts from './pages/adminPages/allProducts/AllProducts'
-import EditUser from './pages/adminPages/users/EditUser';
-import AddUser from './pages/adminPages/users/AddUser';
-import EditOrder from './pages/adminPages/allOrders/EditOrder';
-import AddProduct from  './pages/adminPages/allProducts/AddProduct';
-import EditProduct from './pages/adminPages/allProducts/EditProduct';
+import AdminHome from './adminPages/adminHome/AdminHome'
+import Users from './adminPages/users/Users';
+import AllOrders from './adminPages/allOrders/AllOrders';
+import AllProducts from './adminPages/allProducts/AllProducts'
+import EditUser from './adminPages/users/EditUser';
+import AddUser from './adminPages/users/AddUser';
+import EditOrder from './adminPages/allOrders/EditOrder';
+import AddProduct from  './adminPages/allProducts/AddProduct';
+import EditProduct from './adminPages/allProducts/EditProduct';
 import Profile from './pages/profile/Profile';
 import EditProfile from './pages/profile/EditProfile';
 

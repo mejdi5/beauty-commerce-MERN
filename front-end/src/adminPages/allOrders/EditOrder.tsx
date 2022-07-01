@@ -1,10 +1,10 @@
 import React,{FormEvent, useState, useEffect} from 'react'
 import "./AllOrders"
-import Sidebar from '../../../adminComponents/sidebar/Sidebar'
-import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
+import Sidebar from '../../adminComponents/sidebar/Sidebar'
+import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { useNavigate, useParams } from 'react-router-dom'
-import { OrderType } from '../../../Redux/orderSlice';
-import { CartProduct } from '../../../Redux/cartSlice';
+import { OrderType } from '../../Redux/orderSlice';
+import { CartProduct } from '../../Redux/cartSlice';
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import CloseIcon from '@mui/icons-material/Close';
