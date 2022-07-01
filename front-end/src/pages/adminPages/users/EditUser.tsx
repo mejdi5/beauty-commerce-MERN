@@ -2,9 +2,11 @@ import React,{FormEvent, useState} from 'react'
 import "./Users.css"
 import Sidebar from '../../../adminComponents/sidebar/Sidebar'
 import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
-import { useParams } from 'react-router-dom';
 import { UserType } from '../../../Redux/userSlice';
 import axios from 'axios'
+import { useNavigate, useParams } from 'react-router-dom'
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+
 
 
 const EditUser: React.FC = () => {
@@ -17,12 +19,15 @@ const EditUser: React.FC = () => {
     const [lastName, setLastName] = useState(editedUser?.lastName || '')
     const [email, setEmail] = useState(editedUser?.email || '')
     const [image, setImage] = useState(editedUser?.image || 'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
+    const navigate = useNavigate()
+    const [msg, setMsg] = useState<string | null>(null)
 
     const handleEditUser = async (e: FormEvent) => {
         e.preventDefault();
         try {
             const res = await axios.put(`/api/users/${userId}`, editedUser)
-            console.log(res.data)
+            setMsg(res.data.msg)
+            setTimeout(() => navigate(-1), 1500)
         } catch (error) {
             const errors = error?.response?.data?.errors;
             const msg = error?.response?.data?.msg;
@@ -39,7 +44,9 @@ const EditUser: React.FC = () => {
 return (
 <div className="add-edit-user">
     <Sidebar/>
-    <div className="add-edit-user-container edit">
+    <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
+    <div className="edit-user-container">
+        {msg && <div className='edit-user-msg'>{msg}</div>}
         <div className="form-group add-edit-user-form-group">
             <label className="form-group add-edit-user-label">First Name</label>
             <input 

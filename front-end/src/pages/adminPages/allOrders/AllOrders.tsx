@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import "./AllOrders.css"
 import Sidebar from '../../../adminComponents/sidebar/Sidebar'
 import { DataGrid } from '@mui/x-data-grid';
@@ -18,6 +18,8 @@ const AllOrders: React.FC = () => {
     const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
     const orders = useTypedSelector<OrderType[] | never[]>(state => state.orderSlice.orders)
     const dispatch = useTypedDispatch()
+    const [msg, setMsg] = useState<string | null>(null)
+
 
     const columns = [
         { field: "id", 
@@ -58,10 +60,10 @@ const AllOrders: React.FC = () => {
         renderCell: (params: any) => {
             return (
                 <div className='order-action'>
-                    <Link to={"/order/" + params.row.id}>
+                    <Link to={`/edit-order/${params.row.id}`}>
                         <EditIcon className="order-edit"/>
                     </Link>
-                    <Link to={"/order/" + params.row.id}>
+                    <Link to={`/order/${params.row.id}`}>
                         <VisibilityIcon
                         className="order-visibility"
                         />
@@ -91,6 +93,7 @@ const AllOrders: React.FC = () => {
     const handleDelete = async (id: string) => {
         try {
             const res = await axios.delete(`/api/orders/${id}`)
+            setMsg(res.data.msg)
         } catch (error) {
             console.log(error.message)
         }
@@ -113,6 +116,7 @@ return (
 <div className="allOrders">
     <Sidebar/>
     <div className="allOrders-container">
+    {msg && <div className='order-delete-msg'>{msg}</div>}
     {orderRows.length > 0
         ?
         <DataGrid
@@ -120,7 +124,7 @@ return (
         columns={columns}
         />
         :
-        "No Orders"
+        <div className='no-orders'>No Orders</div>
     }
     </div>
 </div>

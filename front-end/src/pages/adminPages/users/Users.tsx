@@ -18,12 +18,13 @@ const Users: React.FC = () => {
   const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
   const orders = useTypedSelector<OrderType[] | never[]>(state => state.orderSlice.orders)
   const dispatch = useTypedDispatch()
+  const [msg, setMsg] = useState<string | null>(null)
 
 
   const handleDelete = async (id: string) => {
     try {
       const res = await axios.delete(`/api/users/${id}`)
-      alert(`${res.data.msg}`)
+      setMsg(res.data.msg)
     } catch (error) {
       console.log(error.message)
     }
@@ -123,6 +124,7 @@ return (
 <div className="users">
     <Sidebar/>
     <div className="users-container">
+      {msg && <div className='user-delete-msg'>{msg}</div>}
       {userRows.length > 0
         ?
         <DataGrid
@@ -130,7 +132,7 @@ return (
         columns={columns}
         />
         :
-        "No Users"
+        <div className='no-users'>No Users</div>
         }
     </div>
 </div>

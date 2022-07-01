@@ -11,7 +11,7 @@ stripe.charges.create({
     if (error) {
         res.status(500).json(error);
     } else {
-        res.status(200).json(response);
+        res.status(200).json({msg: "Order payed with success..", response});
     }}
 )});
 

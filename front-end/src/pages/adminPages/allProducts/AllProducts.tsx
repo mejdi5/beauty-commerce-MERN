@@ -1,25 +1,27 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import "./AllProducts.css"
 import Sidebar from '../../../adminComponents/sidebar/Sidebar'
 import { DataGrid } from '@mui/x-data-grid';
-import { UserType } from '../../../Redux/userSlice';
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
 import { ProductType, getProducts } from '../../../Redux/productSlice';
+import AddIcon from '@mui/icons-material/Add';
+
 
 
 const AllProducts: React.FC = () => {
 
-    const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
     const products = useTypedSelector<ProductType[] | never[]>(state => state.productSlice.products)
     const dispatch = useTypedDispatch()
+    const [msg, setMsg] = useState<string | null>(null)
 
     const handleDelete = async (id: string) => {
         try {
             const res = await axios.delete(`/api/products/${id}`)
+            setMsg(res.data.msg)
         } catch (error) {
             console.log(error.message)
         }
@@ -64,7 +66,10 @@ const AllProducts: React.FC = () => {
         renderCell: (params: any) => {
             return (
                 <div className='product-action'>
-                    <Link to={"/product/" + params.row.id}>
+                    <Link to="/newProduct">
+                        <AddIcon className="product-new"/>
+                    </Link>
+                    <Link to={`/edit-product/${params.row.id}`}>
                         <EditIcon className="product-edit"/>
                     </Link>
                     <DeleteIcon
@@ -105,6 +110,7 @@ return (
 <div className="allProducts">
     <Sidebar/>
     <div className="allProducts-container">
+    {msg && <div className='product-delete-msg'>{msg}</div>}
     {productRows.length > 0
         ?
         <DataGrid
@@ -112,7 +118,7 @@ return (
         columns={columns}
         />
         :
-        "No Products"
+        <div className='no-products'>No Products</div>
     }
     </div>
 </div>

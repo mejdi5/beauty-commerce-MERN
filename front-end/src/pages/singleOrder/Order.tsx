@@ -7,7 +7,7 @@ import { OrderType } from '../../Redux/orderSlice';
 import { CartProduct } from '../../Redux/cartSlice';
 import StripeCheckout from "react-stripe-checkout";
 import axios from 'axios'
-import { getOrder, getOrders } from '../../Redux/orderSlice';
+import { getOrder } from '../../Redux/orderSlice';
 import { UserType } from '../../Redux/userSlice';
 
 const Order : React.FC = () => {
@@ -16,7 +16,7 @@ const Order : React.FC = () => {
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const orders = useTypedSelector<OrderType[] | null>(state => state.orderSlice.orders)
     const orderId = useParams().orderId
-    const order = orders?.find(order => order._id === orderId)
+    const order = orders && orders?.find(order => order?._id === orderId)
     const [stripeToken, setStripeToken] = useState<any>(null);
     const dispatch = useTypedDispatch()
 
@@ -44,8 +44,6 @@ const Order : React.FC = () => {
                     amount: order?.amount,
                 });
                 setPaidOrder()
-                const response = await axios.get(`/api/orders/${user?._id}`)
-                dispatch(getOrders(res.data))
             } catch (error) {
                 console.log(error)
             }

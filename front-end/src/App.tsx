@@ -22,6 +22,9 @@ import AllOrders from './pages/adminPages/allOrders/AllOrders';
 import AllProducts from './pages/adminPages/allProducts/AllProducts'
 import EditUser from './pages/adminPages/users/EditUser';
 import AddUser from './pages/adminPages/users/AddUser';
+import EditOrder from './pages/adminPages/allOrders/EditOrder';
+import AddProduct from  './pages/adminPages/allProducts/AddProduct';
+import EditProduct from './pages/adminPages/allProducts/EditProduct';
 
 
 const App: React.FC = () => {
@@ -204,10 +207,34 @@ const App: React.FC = () => {
             <Navigate to="/"/>
           }/>
 
+          <Route path="/edit-order/:orderId" element={
+            (user && user.isAdmin) 
+            ? 
+            <EditOrder/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
           <Route path="/allProducts" element={
             (user && user.isAdmin) 
             ? 
             <AllProducts/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/newProduct" element={
+            (user && user.isAdmin) 
+            ? 
+            <AddProduct/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/edit-product/:productId" element={
+            (user && user.isAdmin) 
+            ? 
+            <EditProduct/> 
             : 
             <Navigate to="/"/>
           }/>

@@ -37,7 +37,6 @@ router.get("/income", async (req, res) => {
     }
 });
 
-
 //POST NEW ORDER
 router.post("/", async (req, res) => {
     const newOrder = new Order(req.body);
@@ -57,7 +56,7 @@ router.put("/:orderId", async (req, res) => {
         {$set: req.body},
         { new: true }
     );
-        res.status(200).json(editedOrder);
+        res.status(200).json({msg: "Order edited..", editedOrder});
     } catch (error) {
         res.status(500).json(error);
     }
@@ -67,7 +66,7 @@ router.put("/:orderId", async (req, res) => {
 router.delete("/:orderId", async (req, res) => {
     try {
         await Order.findOneAndDelete({ _id: req.params.orderId });
-        res.status(200).json("Order has been deleted...");
+        res.status(200).json({msg: "An Order has been deleted..."});
     } catch (error) {
         res.status(500).json(error);
     }

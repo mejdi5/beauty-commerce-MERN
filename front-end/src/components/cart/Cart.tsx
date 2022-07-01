@@ -117,7 +117,7 @@ return (
             <h3 className='cart-item-title'>{item?.product?.title}</h3>
             <button 
             className="btn-close" 
-            onClick={() => removeProductFromCart(item.product._id)}
+            onClick={() => item?.product?._id && removeProductFromCart(item?.product?._id)}
             ></button>
         </div>
         <div className='cart-item'>
@@ -126,9 +126,9 @@ return (
                 <p>{item?.product?.price*item?.productQuantity}$</p>
             </div>
             <div className='cart-item-icons'>
-                <div className='cart-remove-icon' onClick={() => item?.productQuantity > 1 && decreaseProductQuantity(item.product._id)}><RemoveIcon/></div>
+                <div className='cart-remove-icon' onClick={() => (item?.product?._id && item?.productQuantity > 1) && decreaseProductQuantity(item?.product?._id)}><RemoveIcon/></div>
                 <div>{item?.productQuantity}</div>
-                <div className='cart-add-icon' onClick={() => increaseProductQuantity(item.product._id)}><AddIcon/></div>
+                <div className='cart-add-icon' onClick={() => item?.product?._id && increaseProductQuantity(item?.product?._id)}><AddIcon/></div>
             </div>
             <img src={item?.product?.image} className='cart-item-image'/>
         </div>

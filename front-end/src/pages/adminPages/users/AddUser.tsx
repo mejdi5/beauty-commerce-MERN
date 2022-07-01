@@ -2,9 +2,9 @@ import React,{FormEvent, useState} from 'react'
 import "./Users.css"
 import Sidebar from '../../../adminComponents/sidebar/Sidebar'
 import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
-import { useParams } from 'react-router-dom';
-import { UserType } from '../../../Redux/userSlice';
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 
 const AddUser = () => {
@@ -16,20 +16,21 @@ const AddUser = () => {
     const [password, setPassword] = useState('')
     const [isAdmin, setIsAdmin] = useState(false)
     const [image, setImage] = useState('https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
+    const navigate = useNavigate() 
+    const [msg, setMsg] = useState<string | null>(null)
 
     const handleAddUser = async (e: FormEvent) => {
         e.preventDefault();
         try {
             const newUser = {firstName, lastName, email, password, isAdmin, image}
             const res = await axios.post(`/api/users`, newUser)
-            console.log(res.data)
+            setMsg(res.data.msg)
         } catch (error) {
             const errors = error?.response?.data?.errors;
             const msg = error?.response?.data?.msg;
             if (Array.isArray(errors)) {
                 errors.forEach((err) => alert(err.msg));
             }
-            console.log('errors',errors);
             if (msg) {
                 alert(msg);
             }
@@ -40,12 +41,15 @@ const AddUser = () => {
         setPassword('')
         setIsAdmin(false)
         setImage('https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
+        setTimeout(() => navigate(-1), 1500)
     }
 
 return (
 <div className="add-edit-user">
     <Sidebar/>
-    <div className="add-edit-user-container add">
+    <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
+    <div className="add-user-container">
+        {msg && <div className='add-user-msg'>{msg}</div>}
         <div className="form-group add-edit-user-form-group">
             <label className="form-group add-edit-user-label">First Name</label>
             <input 

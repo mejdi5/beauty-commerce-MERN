@@ -7,7 +7,7 @@ router.post("/", async (req, res) => {
     const newProduct = new Product(req.body);
     try {
         const savedProduct = await newProduct.save();
-        res.status(200).json(savedProduct);
+        res.status(200).json({savedProduct, msg: `Product is added to database`});
     } catch (error) {
         res.status(500).json(error);
     }
@@ -21,7 +21,7 @@ router.put("/:productId", async (req, res) => {
             {$set: req.body},
             { new: true }
         );
-        res.status(200).json(editedProduct);
+        res.status(200).json({msg: "product edited..", editedProduct});
     } catch (error) {
         res.status(500).json(error);
     }
@@ -31,7 +31,7 @@ router.put("/:productId", async (req, res) => {
 router.delete("/:productId", async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete({_id : req.params.productId});
-        res.status(200).json({msg: "Product has been deleted...", deletedProduct});
+        res.status(200).json({msg: "A product has been deleted...", deletedProduct});
     } catch (err) {
         res.status(500).json(err);
     }
