@@ -26,18 +26,15 @@ return (
     <div className='navbar-wrapper'>
 
         <div className='navbar-left'>
-            <div className='navbar-language'>EN</div>
-            <div className='navbar-search'>
-                <input 
-                className='navbar-search-input'
-                placeholder="Search.." 
-                />
-                <SearchIcon style={{ color: "white", fontSize: 20 }} />
-            </div>
+        <Link to="/" style={{ textDecoration: "none" }}>
+            <span className="navbar-logo">Beauty Commerce</span>
+        </Link>
         </div>
 
         <div className='navbar-center'>
-            {user && <div className='navbar-center-item'>{user?.firstName} {user?.lastName}</div>}
+            <Link to={`/user-profile/${user?._id}`}>
+                {user && <div className='navbar-center-item'>{user?.firstName} {user?.lastName}</div>}
+            </Link>
         </div>
 
         <div className='navbar-right-item'>

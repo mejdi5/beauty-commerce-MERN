@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
 //EDIT AN ORDER
 router.put("/:orderId", async (req, res) => {
     try {
-    const editedOrder = await Order.findOneAndUpdate(
+    const editedOrder = await Order.findByIdAndUpdate(
         req.params.orderId,
         {$set: req.body},
         { new: true }

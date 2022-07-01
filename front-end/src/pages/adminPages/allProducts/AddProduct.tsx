@@ -83,7 +83,11 @@ return (
                 <AddIcon
                 color="action"
                 className='add-edit-product-category-icon'
-                onClick={() => category && setCategories(prev => [...prev, category])}
+                onClick={() => {
+                    category && setCategories(prev => [...prev, category]);
+                    setCategory(null)
+                    }
+                }
                 />
             </div>
             <div className='add-edit-category-display'>

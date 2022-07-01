@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserType {
-    _id?: String,
+    _id?: string,
     firstName: string,
     lastName: string | undefined,
     email: string,
@@ -63,6 +63,10 @@ const userSlice = createSlice({
 
         getAllUsers: (state: State, action: PayloadAction<UserType[]>) => {
             state.users = action.payload
+        },
+    
+        getOneUser: (state: State, action: PayloadAction<UserType>) => {
+            state.user = action.payload
         }
     }
 })
@@ -77,6 +81,7 @@ export const { authStart,
     getVerifiedUser,
     logoutUser,
     getAllUsers,
+    getOneUser
 } = actions;
 
 export default reducer

@@ -16,13 +16,14 @@ router.post("/", async (req, res) => {
 //EDIT PRODUCT
 router.put("/:productId", async (req, res) => {
     try {
-        const editedProduct = await Product.findOneAndUpdate(
+        const editedProduct = await Product.findByIdAndUpdate(
             req.params.productId,
             {$set: req.body},
             { new: true }
         );
         res.status(200).json({msg: "product edited..", editedProduct});
     } catch (error) {
+        console.log(error)
         res.status(500).json(error);
     }
 });

@@ -1,23 +1,21 @@
 import React,{FormEvent, useState} from 'react'
-import "./Users.css"
-import Sidebar from '../../../adminComponents/sidebar/Sidebar'
-import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
-import { getOneUser, UserType } from '../../../Redux/userSlice';
+import "./Profile.css"
+import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { getOneUser, UserType } from '../../Redux/userSlice';
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 
 
-const EditUser: React.FC = () => {
+const EditProfile: React.FC = () => {
 
-    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
     const userId = useParams().userId
     const userToEdit = users && users.find((user: UserType) => user?._id === userId)
     const dispatch = useTypedDispatch()
 
-    const [firstName, setFirstName] = useState(userToEdit?.firstName || '')
+    const [firstName, setFirstName] = useState((userToEdit?.firstName) || '')
     const [lastName, setLastName] = useState(userToEdit?.lastName || '')
     const [email, setEmail] = useState(userToEdit?.email || '')
     const [image, setImage] = useState(userToEdit?.image || 'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
@@ -29,11 +27,9 @@ const EditUser: React.FC = () => {
         const editedUser = {firstName, lastName, email, image}
         try {
             const res = await axios.put(`/api/users/${userId}`, editedUser)
-            if (userToEdit?.isAdmin || user?._id === userId) {
-                dispatch(getOneUser(res.data.editedUser))
-            } 
-            setMsg(res.data.msg)
-            setTimeout(() => navigate(-1), 1500)
+            setMsg("Profile edited..")
+            dispatch(getOneUser(res.data.editedUser))
+            setTimeout(() => navigate('/'), 1500)
         } catch (error) {
             const errors = error?.response?.data?.errors;
             const errorMsg = error?.response?.data?.msg;
@@ -48,7 +44,6 @@ const EditUser: React.FC = () => {
 
 return (
 <div className="add-edit-user">
-    <Sidebar/>
     <div className='back' onClick={() => navigate(-1)}><ArrowCircleLeftIcon/></div>
     <div className="edit-user-container">
         {msg && <div className='edit-user-msg'>{msg}</div>}
@@ -97,4 +92,4 @@ return (
 </div>
 )}
 
-export default EditUser
+export default EditProfile

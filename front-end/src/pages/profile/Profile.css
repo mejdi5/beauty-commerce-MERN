@@ -1,0 +1,70 @@
+.admin-profile{
+    flex: 4;
+    display: flex;
+}
+
+.admin-profile-container {
+    flex: 5;
+}
+
+.admin-profile-wrapper {
+    margin: 4vh 5vw;
+    padding: 10vw 0vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(45, 37, 37);
+    border-radius: 20px;
+}
+
+.admin-profile-image {
+    width: 20vw;
+    object-fit: contain;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.admin-profile-image:hover {
+    border: rgb(166, 177, 35) solid 3px
+}
+
+.admin-profile-info {
+    width: 40vw;
+    height: 40vh;
+    margin-left: 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 5vh 10vw
+}
+
+.admin-profile-info-item {
+    display: flex;
+}
+
+.admin-profile-info-item > h6{
+    font-size: 15px;
+    margin-left: 1vw;
+    color: white
+}
+
+.admin-profile-info-item > span{
+    width: 5vw
+}
+
+.admin-profile-icons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 40vh;
+}
+
+.admin-profile-icon {
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.admin-profile-icon:hover {
+    background-color: #fff;
+}
+

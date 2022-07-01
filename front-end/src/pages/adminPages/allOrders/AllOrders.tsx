@@ -41,7 +41,7 @@ const AllOrders: React.FC = () => {
         {
         field: "address",
         headerName: "ADDRESS",
-        width: 120,
+        width: 400,
         },
         {
         field: "amount",

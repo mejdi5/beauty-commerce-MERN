@@ -52,9 +52,6 @@ const MONTHS = useMemo(
     getStats();
   }, [MONTHS]);
 
-  //console.log(userStats)
-  //console.log('user', user)
-
 
 return (
 <div className="admin-home">

@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import axios from 'axios'
 import { getAllUsers, UserType } from "../../Redux/userSlice";
 import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { Link } from "react-router-dom";
 
 
 const Members : React.FC = () => {
@@ -44,10 +45,12 @@ return (
             <div className="membersUser">
                 <span className="membersUsername">{user.firstName} {user.lastName}</span>
             </div>
+            <Link to={`/user-profile/${user?._id}`} style={{ textDecoration: "none" }}>
             <button className="membersButton">
             <VisibilityIcon className="membersIcon" />
-            Display
+            See
             </button>
+            </Link>
         </li>
         ))}
     </ul>

@@ -17,6 +17,12 @@
     align-items: center;
 }
 
+.navbar-logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e1dfea;
+}
+
 .navbar-center {
     flex: 2;
     display: flex;

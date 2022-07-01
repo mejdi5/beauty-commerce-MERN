@@ -5,6 +5,7 @@ import {  useTypedDispatch, useTypedSelector } from '../../../Redux/Hooks'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import { getAllUsers, registerSuccess } from '../../../Redux/userSlice'
 
 
 const AddUser = () => {
@@ -18,6 +19,7 @@ const AddUser = () => {
     const [image, setImage] = useState('https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
     const navigate = useNavigate() 
     const [msg, setMsg] = useState<string | null>(null)
+    const dispatch = useTypedDispatch()
 
     const handleAddUser = async (e: FormEvent) => {
         e.preventDefault();
@@ -27,12 +29,12 @@ const AddUser = () => {
             setMsg(res.data.msg)
         } catch (error) {
             const errors = error?.response?.data?.errors;
-            const msg = error?.response?.data?.msg;
+            const errorMsg = error?.response?.data?.msg;
             if (Array.isArray(errors)) {
                 errors.forEach((err) => alert(err.msg));
             }
-            if (msg) {
-                alert(msg);
+            if (errorMsg) {
+                alert(errorMsg);
             }
         }
         setEmail('')
@@ -41,8 +43,9 @@ const AddUser = () => {
         setPassword('')
         setIsAdmin(false)
         setImage('https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
-        setTimeout(() => navigate(-1), 1500)
+        setTimeout(() => navigate(-1), 2000)
     }
+
 
 return (
 <div className="add-edit-user">

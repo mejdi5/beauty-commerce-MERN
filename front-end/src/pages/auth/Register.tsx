@@ -30,13 +30,11 @@ const Register : React.FC = () => {
                 dispatch(registerSuccess(res.data))
                 navigate(`/`);
             } catch (error: any) {
-                console.dir('error',error);
                 const errors = error?.response?.data?.errors;
                 const msg = error?.response?.data?.msg;
                 if (Array.isArray(errors)) {
                     errors.forEach((err) => alert(err.msg));
                 }
-                console.log('errors',errors);
                 if (msg) {
                     alert(msg);
                 }

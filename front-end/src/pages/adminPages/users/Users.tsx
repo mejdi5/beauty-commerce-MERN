@@ -91,7 +91,7 @@ const Users: React.FC = () => {
         const res = await axios.get("/api/users"); 
         dispatch(getAllUsers(res.data));
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
         }
     };
     const getUsersOrders = async () => {
@@ -99,7 +99,7 @@ const Users: React.FC = () => {
           const res = await axios.get("/api/orders");
           dispatch(getOrders(res.data));
       } catch (error) {
-          console.log(error.message)
+          console.log(error)
       }
       };
     getUsersOrders();

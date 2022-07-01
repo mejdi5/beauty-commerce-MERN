@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const Token = require("../models/Token");
 const CryptoJS = require("crypto-js");
+const crypto = require('crypto')
 const { validate } = require('deep-email-validator');
 const { 
     nameValidation, 
@@ -57,7 +59,7 @@ router.post("/", nameValidation, emailValidation, passwordValidation , validator
             isAdmin: savedUser.isAdmin,
             token: crypto.randomBytes(32).toString("hex"),
         }).save();
-        res.status(200).json({savedUser, token: newToken, msg: `${savedUser.firstName} ${savedUser.firstName} is registered in database`});
+        res.status(200).json({savedUser, token: newToken, msg: `${savedUser.firstName} ${savedUser.lastName} is registered in database`});
     } catch (error) {
         console.log(error)
         res.status(500).json(error);
@@ -77,7 +79,6 @@ router.put('/:userId', validator, async (req, res) => {
             const emailValidator = await validate(req.body.email)
             const isValid = emailValidator.valid
             let existingUser = await User.findOne({ email: req.body.email });
-            console.log(existingUser)
             !isValid && 
                 res.status(400).json({msg: 'Email is not valid'})
             (existingUser && existingUser._id !== req.params.userId) && 
@@ -89,7 +90,7 @@ router.put('/:userId', validator, async (req, res) => {
         if (req.body.password && req.body.password.length < 6) {
             res.status(400).json({msg: "Password must have at least 6 characters"})
         }
-        const editedUser = await User.findOneAndUpdate(
+        const editedUser = await User.findByIdAndUpdate(
             req.params.userId, 
             {$set: req.body}, 
             { new: true }

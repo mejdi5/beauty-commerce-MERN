@@ -22,12 +22,14 @@ const FeaturedInfo: React.FC = () => {
     getIncome();
   }, []);
 
-
+const monthArray = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const thisMonth = monthArray[new Date().getMonth()]
 
   return (
       <div className="featuredInfo">
-        <span className="featuredTitle">Revenue</span>
+        <h4>{thisMonth.toUpperCase()}</h4>
         <div className="featuredMoneyContainer">
+          <span className="featuredTitle">Revenue</span>
           <span className="featuredMoney">${income?.length > 1 ? income[1]?.total : income[0]?.total}</span>
           <span className="featuredMoneyRate">
             {percentage < 0 ? (
@@ -37,7 +39,6 @@ const FeaturedInfo: React.FC = () => {
             )}
           </span>
         </div>
-        <span className="featuredSub">Compared to last month</span>
       </div>
   );
 }

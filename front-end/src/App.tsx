@@ -8,7 +8,7 @@ import ProductList from './pages/productList/ProductList';
 import Product from './pages/singleProduct/Product';
 import Orders from './pages/orders/Orders'
 import Order from './pages/singleOrder/Order'
-import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
+import { Route, Routes, BrowserRouter, Navigate, useParams } from 'react-router-dom'
 import { useTypedSelector } from './Redux/Hooks'
 import axios from 'axios'
 import { useTypedDispatch } from './Redux/Hooks'
@@ -25,6 +25,8 @@ import AddUser from './pages/adminPages/users/AddUser';
 import EditOrder from './pages/adminPages/allOrders/EditOrder';
 import AddProduct from  './pages/adminPages/allProducts/AddProduct';
 import EditProduct from './pages/adminPages/allProducts/EditProduct';
+import Profile from './pages/profile/Profile';
+import EditProfile from './pages/profile/EditProfile';
 
 
 const App: React.FC = () => {
@@ -32,7 +34,6 @@ const App: React.FC = () => {
   const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
   const isLoading = useTypedSelector(state => state.userSlice.isLoading)
   const dispatch = useTypedDispatch()
-
   const [filterProductsWord, setFilterProductsWord] = useState("")
 
   const postCart = async () => {
@@ -71,7 +72,7 @@ const App: React.FC = () => {
     user && user?.verified && getCart()
   }, [user])
   
-/*
+
   if (isLoading) {
     return (
       <div className="spinner-border" role="status" >
@@ -79,7 +80,7 @@ const App: React.FC = () => {
       </div>
     );
   }
-*/
+
   return (
     <BrowserRouter>
         <Routes>
@@ -238,12 +239,26 @@ const App: React.FC = () => {
             : 
             <Navigate to="/"/>
           }/>
+
+          <Route path="/user-profile/:userId" element={
+            user
+            ? 
+            <Profile/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/edit-profile/:userId" element={
+            user && !user?.isAdmin 
+            ? 
+            <EditProfile/> 
+            : 
+            <Navigate to="/"/>
+          }/>
           
         </Routes>
     </BrowserRouter>
   )
 }
-
-
 
 export default App;
