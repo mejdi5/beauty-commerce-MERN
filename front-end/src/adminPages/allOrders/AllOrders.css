@@ -153,3 +153,39 @@
     justify-content: center;
     align-items: center;
 }
+
+.add-product-to-order {
+    margin-left: 1vw;
+    cursor: pointer;
+    border-radius: 50%;
+    color: black
+}
+
+.add-product-to-order:hover {
+    background-color: rgb(156, 117, 117);
+    color: red
+}
+
+.order-product-modal-item {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    margin: 5px 0px;
+    border: solid black 0.5px
+}
+
+.order-product-modal-title {
+    width: 80vw
+}
+
+.order-product-modal-item:hover {
+    background-color: rgb(199, 201, 202);
+}
+
+.order-product-modal-icon {
+    cursor: pointer;
+}
+.order-product-modal-icon:hover {
+    color: red;
+}
+

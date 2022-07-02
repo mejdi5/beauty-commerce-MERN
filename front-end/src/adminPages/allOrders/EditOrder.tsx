@@ -8,7 +8,8 @@ import { CartProduct } from '../../Redux/cartSlice';
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import CloseIcon from '@mui/icons-material/Close';
-
+import AddIcon from '@mui/icons-material/Add';
+import OrderModal from './OrderModal'
 
 const EditOrder: React.FC = () => {
 
@@ -22,7 +23,7 @@ const EditOrder: React.FC = () => {
     const [status, setStatus] = useState(orderToEdit?.status || '')
     const navigate = useNavigate() 
     const [msg, setMsg] = useState<string | null>(null)
-
+    const [showModal, setShowModal] = useState(false);
 
     const handleEditOrder = async (e: FormEvent) => {
         e.preventDefault();
@@ -116,6 +117,15 @@ return (
                     />
                 </div>
                 )}
+            </div>
+            <div className='add-product-to-order' onClick={() => setShowModal(true)}>
+                <AddIcon/>
+                <OrderModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                orderProducts={orderProducts}
+                setOrderProducts={setOrderProducts}
+                />
             </div>
         </div>
         
