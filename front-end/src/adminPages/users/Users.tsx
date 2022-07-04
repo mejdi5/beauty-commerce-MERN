@@ -11,11 +11,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { ImageType } from '../../Redux/imageSlice';
 
 
 const Users: React.FC = () => {
 
   const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
+  const images = useTypedSelector<ImageType[] | never[]>(state => state.imageSlice.images)
   const orders = useTypedSelector<OrderType[] | never[]>(state => state.orderSlice.orders)
   const dispatch = useTypedDispatch()
   const [msg, setMsg] = useState<string | null>(null)
@@ -109,11 +111,12 @@ const Users: React.FC = () => {
 
     const lastMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
     const userRows = users.filter((user: UserType) => !user.isAdmin).map((user: UserType) => {
+      const userImage = images.find((img: ImageType) => img?.userId === user?._id)
       return {
       id: user._id,
       name: user.firstName + ' ' + user.lastName,
       email: user.email,
-      image: user.image || "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
+      image: userImage?.path || "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
       status: orders.some((order: OrderType) => order.userId === user._id && new Date(order.createdAt) > lastMonth) ? "Active" : 'Inactive',
       transaction: orders.some((order: OrderType) => order.userId === user._id)
       ? `${orders.filter((order: OrderType) => order.userId === user._id).map(order => order.amount)?.reduce((a,b) => a + b)}$`

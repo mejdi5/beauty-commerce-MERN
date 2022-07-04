@@ -8,12 +8,12 @@ import ProductList from './pages/productList/ProductList';
 import Product from './pages/singleProduct/Product';
 import Orders from './pages/orders/Orders'
 import Order from './pages/singleOrder/Order'
-import { Route, Routes, BrowserRouter, Navigate, useParams } from 'react-router-dom'
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
 import { useTypedSelector } from './Redux/Hooks'
 import axios from 'axios'
 import { useTypedDispatch } from './Redux/Hooks'
-import {  UserType } from './Redux/userSlice';
-import  { getUserCart }  from './Redux/cartSlice';
+import { UserType } from './Redux/userSlice';
+import { getUserCart }  from './Redux/cartSlice';
 import ForgotPassword from './pages/auth/forgotPassword/ForgotPassword';
 import PasswordReset from './pages/auth/passwordReset/PasswordReset';
 import AdminHome from './adminPages/adminHome/AdminHome'
@@ -72,7 +72,7 @@ const App: React.FC = () => {
     user && user?.verified && getCart()
   }, [user])
   
-
+/*
   if (isLoading) {
     return (
       <div className="spinner-border" role="status" >
@@ -80,7 +80,7 @@ const App: React.FC = () => {
       </div>
     );
   }
-
+*/
   return (
     <BrowserRouter>
         <Routes>

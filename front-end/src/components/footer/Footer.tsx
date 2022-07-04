@@ -11,7 +11,7 @@ return (
 <div className='footer-container'>
     <div className='footer-wrapper'>
         <div className='footer-left'>
-            <h2>ecommerce</h2>
+            <h2>Beauty Commerce</h2>
             <div className='footer-social'>
                 <div className='footer-icon facebook'><FacebookIcon /></div>
                 <div className='footer-icon instagram'><InstagramIcon /></div>
@@ -19,7 +19,7 @@ return (
             </div>
         </div>
         <div className='footer-center'>
-            <h3 className='footer-title'>Items</h3>
+            <h3 className='footer-title'>ITEMS</h3>
             <ul className='footer-list-items'>
                 <li className='footer-item'>Home</li>
                 <li className='footer-item'>Cart</li>
@@ -28,7 +28,7 @@ return (
             </ul>
         </div>
         <div className='footer-right'>
-            <h3 className='footer-title'>Contact</h3>
+            <h3 className='footer-title'>CONTACT</h3>
             <ul className='footer-list-contact'>
                 <li className='footer-contact'>
                     <div className='phone'>

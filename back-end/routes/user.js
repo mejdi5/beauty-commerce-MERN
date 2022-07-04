@@ -43,7 +43,7 @@ router.post("/", nameValidation, emailValidation, passwordValidation , validator
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        image: req.body.image,
+        //image: req.body.image,
         isAdmin: req.body.isAdmin,
         verified: true,
         password: CryptoJS.AES.encrypt(

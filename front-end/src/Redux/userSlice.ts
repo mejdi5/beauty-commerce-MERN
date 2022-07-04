@@ -8,7 +8,6 @@ export interface UserType {
     password: string,
     isAdmin?: Boolean,
     verified?: Boolean,
-    image?: string
 }
 
 interface State {

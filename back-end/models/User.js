@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     verified: { type: Boolean, default: false },
-    image: {type: String, default: "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"},
     isAdmin: { type: Boolean, default: false },
 },
 { timestamps: true }

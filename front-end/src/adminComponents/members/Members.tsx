@@ -5,12 +5,16 @@ import axios from 'axios'
 import { getAllUsers, UserType } from "../../Redux/userSlice";
 import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { Link } from "react-router-dom";
+import { getAllImages, ImageType } from '../../Redux/imageSlice'
 
 
 const Members : React.FC = () => {
 
+    const images = useTypedSelector<ImageType[] | never[]>(state => state.imageSlice.images)
     const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
+    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const dispatch = useTypedDispatch()
+    const userImage = images.find((img: ImageType) => img?.userId === user?._id)
 
     useEffect(() => {
     const getUsers = async () => {
@@ -21,8 +25,18 @@ const Members : React.FC = () => {
             console.log(error.message)
         }
     };
+    const getImages = async () => {
+        try {
+        const res = await axios.get("/api/images"); 
+        dispatch(getAllImages(res.data));
+        } catch (error) {
+            console.log(error.message)
+        }
+    };
     getUsers();
+    getImages();
     }, []);
+
 
 return (
 <div className="members">
@@ -30,18 +44,11 @@ return (
     <ul className="membersList">
         {users.filter((user: UserType) => !user.isAdmin).map((user, index) => (
         <li className="membersListItem" key={index}>
-            {user?.image 
-            ? <img
-            src={user.image}
+            <img
+            src={userImage ? userImage.path : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"}
             alt=""
             className="membersImg"
             />
-            : <img
-            src={"https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"}
-            alt=""
-            className="membersImg"
-            />
-            }
             <div className="membersUser">
                 <span className="membersUsername">{user.firstName} {user.lastName}</span>
             </div>

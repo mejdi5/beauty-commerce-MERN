@@ -8,11 +8,13 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { logoutUser, UserType } from '../../Redux/userSlice';
 import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { getImage, ImageType } from '../../Redux/imageSlice';
 
 
 const Sidebar = () => {
 
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
+    const image = useTypedSelector<ImageType | null>(state => state.imageSlice.image)
     const dispatch = useTypedDispatch()
 
     const handleLogout = () => {
@@ -23,6 +25,7 @@ return (
 <div className="sidebar">
     <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
+            <img src={image?.path} className="navbar-user-image"/>
             <span className="logo">Beauty Commerce</span>
         </Link>
     </div>

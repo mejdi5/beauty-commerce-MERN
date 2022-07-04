@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 
-
 const EditProfile: React.FC = () => {
 
     const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
@@ -15,16 +14,15 @@ const EditProfile: React.FC = () => {
     const userToEdit = users && users.find((user: UserType) => user?._id === userId)
     const dispatch = useTypedDispatch()
 
-    const [firstName, setFirstName] = useState((userToEdit?.firstName) || '')
-    const [lastName, setLastName] = useState(userToEdit?.lastName || '')
-    const [email, setEmail] = useState(userToEdit?.email || '')
-    const [image, setImage] = useState(userToEdit?.image || 'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
+    const [firstName, setFirstName] = useState(userToEdit?.firstName)
+    const [lastName, setLastName] = useState(userToEdit?.lastName)
+    const [email, setEmail] = useState(userToEdit?.email)
     const navigate = useNavigate()
     const [msg, setMsg] = useState<string | null>(null)
 
     const handleEditUser = async (e: FormEvent) => {
         e.preventDefault();
-        const editedUser = {firstName, lastName, email, image}
+        const editedUser = {firstName, lastName, email}
         try {
             const res = await axios.put(`/api/users/${userId}`, editedUser)
             setMsg("Profile edited..")
@@ -41,6 +39,7 @@ const EditProfile: React.FC = () => {
             }
         }
     }
+
 
 return (
 <div className="add-edit-user">
@@ -70,24 +69,14 @@ return (
             <input 
             type="email" 
             className="form-control add-edit-user-input" 
-            value={email}
             onChange={e => setEmail(e.target.value)}
-            />
-        </div>
-        <div className="form-group add-edit-user-form-group">
-            <label className="form-group add-edit-user-label">Image</label>
-            <input 
-            type="text" 
-            className="form-control add-edit-user-input" 
-            value={image}
-            onChange={e => setImage(e.target.value)}
             />
         </div>
         <button 
         type="submit" 
         className="btn btn-primary"
         onClick={e => handleEditUser(e)}
-        >Update</button>
+        >Save</button>
     </div>
 </div>
 )}

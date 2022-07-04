@@ -1,13 +1,13 @@
-.admin-profile{
+.profile{
     flex: 4;
     display: flex;
 }
 
-.admin-profile-container {
+.profile-container {
     flex: 5;
 }
 
-.admin-profile-wrapper {
+.profile-wrapper {
     margin: 4vh 5vw;
     padding: 10vw 0vh;
     display: flex;
@@ -17,18 +17,43 @@
     border-radius: 20px;
 }
 
-.admin-profile-image {
+.profile-image-wrapper {
+    position: relative;
+}
+
+.profile-image {
     width: 20vw;
     object-fit: contain;
     border-radius: 50%;
+    opacity: 1;
+}
+
+.profile-image-file-input {
     cursor: pointer;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 50%;
+    opacity: 0
 }
 
-.admin-profile-image:hover {
-    border: rgb(166, 177, 35) solid 3px
+.no-display {
+    display: none;
 }
 
-.admin-profile-info {
+.upload-btn{
+    position: absolute;
+    border-radius: 50%;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0.5;
+}
+
+.profile-info {
     width: 40vw;
     height: 40vh;
     margin-left: 5vw;
@@ -38,33 +63,33 @@
     padding: 5vh 10vw
 }
 
-.admin-profile-info-item {
+.profile-info-item {
     display: flex;
 }
 
-.admin-profile-info-item > h6{
+.profile-info-item > h6{
     font-size: 15px;
     margin-left: 1vw;
     color: white
 }
 
-.admin-profile-info-item > span{
+.profile-info-item > span{
     width: 5vw
 }
 
-.admin-profile-icons{
+.profile-icons{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 40vh;
 }
 
-.admin-profile-icon {
+.profile-icon {
     cursor: pointer;
     border-radius: 50%;
 }
 
-.admin-profile-icon:hover {
+.profile-icon:hover {
     background-color: #fff;
 }
 

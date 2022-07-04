@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Navbar.css'
-import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Badge } from "@mui/material";
 import Drawer from '@mui/material/Drawer';
@@ -8,18 +7,18 @@ import Cart from '../cart/Cart';
 import { useTypedSelector, useTypedDispatch } from '../../Redux/Hooks'
 import { Link } from 'react-router-dom'
 import { logoutUser, UserType } from '../../Redux/userSlice';
+import { ImageType } from '../../Redux/imageSlice';
 
 
 const Navbar : React.FC = () => {
 
     const [cartOpen, setCartOpen] = useState(false);
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
+    const image = useTypedSelector<ImageType | null>(state => state.imageSlice.image)
     const cart = useTypedSelector(state => state.cartSlice.cart)
     const dispatch = useTypedDispatch()
+    console.log(image)
 
-    const handleLogout = () => {
-        dispatch(logoutUser())
-    }
 
 return (
 <div className='navbar-container'>
@@ -32,8 +31,13 @@ return (
         </div>
 
         <div className='navbar-center'>
-            <Link to={`/user-profile/${user?._id}`}>
-                {user && <div className='navbar-center-item'>{user?.firstName} {user?.lastName}</div>}
+            <Link to={`/user-profile/${user?._id}`} style={{ textDecoration: "none" }}>
+                {user && 
+                <div className='navbar-center-item'>
+                    <img src={image?.path} className="sidebar-user-image"/>
+                    <div>{user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}</div>
+                </div>
+                }
             </Link>
         </div>
 
@@ -53,18 +57,18 @@ return (
                     {(user && user.verified) &&
                     <Link to={`/orders/${user?._id}`} style={{ textDecoration: "none" }}>
                         <div 
-                        className='navbar-right-item orders' 
-                        >Orders</div>
+                        className='navbar-right-item' 
+                        >ORDERS</div>
                     </Link>
                     }
-                    <div className='navbar-right-item signout' onClick={handleLogout}>Sign Out</div>
+                    <div className='navbar-right-item signout' onClick={() => dispatch(logoutUser())}>DISCONNECT</div>
                     {user.verified && 
                     <div className='navbar-right-item'>
                     <Drawer open={cartOpen} onClose={() => setCartOpen(false)}>
                         <Cart/>
                     </Drawer>
                     <Badge badgeContent={cart?.quantity} color="error" onClick={() => setCartOpen(true)}>
-                        <ShoppingCartIcon color='action'/>
+                        <ShoppingCartIcon className='shoppingCartIcon'/>
                     </Badge>
                     </div>
                     }

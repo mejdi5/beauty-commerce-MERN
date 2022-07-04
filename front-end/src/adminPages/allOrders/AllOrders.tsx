@@ -11,11 +11,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { ImageType } from '../../Redux/imageSlice';
 
 
 const AllOrders: React.FC = () => {
 
     const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
+    const images = useTypedSelector<ImageType[] | never[]>(state => state.imageSlice.images)
     const orders = useTypedSelector<OrderType[] | never[]>(state => state.orderSlice.orders)
     const dispatch = useTypedDispatch()
     const [msg, setMsg] = useState<string | null>(null)
@@ -81,10 +83,11 @@ const AllOrders: React.FC = () => {
     
     const orderRows = orders.map((order: OrderType) => {
         const userOrder = users.find((user: UserType) => user._id === order.userId)
+        const userOrderImage = images.find((img: ImageType) => img?.userId === userOrder?._id)
         return {
         id: order._id,
         name: userOrder &&  userOrder.firstName + ' ' + userOrder.lastName,
-        image: userOrder ? userOrder.image : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
+        image: userOrderImage ? userOrderImage : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
         amount: `${order.amount}$`,
         address: order.address,
         status: order.status
