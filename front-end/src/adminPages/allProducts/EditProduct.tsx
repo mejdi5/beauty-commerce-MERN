@@ -8,6 +8,7 @@ import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { ProductImageType, getProductImage } from '../../Redux/productImageSlice'
 
 
 const EditProduct = () => {
@@ -15,21 +16,39 @@ const EditProduct = () => {
     const products = useTypedSelector<ProductType[] | never[]>(state => state.productSlice.products)
     const productId = useParams().productId
     const productToEdit = products && products.find((product: ProductType) => product?._id === productId)
-
+    const productImages = useTypedSelector<ProductImageType[] | never[]>(state => state.productImageSlice.productImages)
+    //const productImage = productImages.find((img: ProductImageType) => img?.productId === productToEdit?._id)
+    const [picture, setPicture] = useState<any>(null)
     const [title, setTitle] = useState(productToEdit?.title || '')
     const [description, setDescription] = useState(productToEdit?.description || '')
-    const [image, setImage] = useState(productToEdit?.image || '')
     const [category, setCategory] = useState<string | null>(null)
     const [categories, setCategories] = useState<string[] | never[]>(productToEdit?.categories || [])
     const [price, setPrice] = useState(productToEdit?.price || 0)
     const [inStock, setInStock] = useState<boolean>(productToEdit?.inStock || true)
-    const navigate = useNavigate() 
     const [msg, setMsg] = useState<string | null>(null)
+    const dispatch = useTypedDispatch()
+    const navigate = useNavigate() 
+
+
+    //post new product image
+    const uploadProductImage = async (e: FormEvent) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData()
+            formData.append('picture', picture)
+            const res = await axios.post(`/api/product-images/upload/${productId}`, formData)
+            res.data.savedImage && dispatch(getProductImage(res.data.savedImage.path))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     const handleEditProduct = async (e: FormEvent) => {
         e.preventDefault();
+        uploadProductImage(e);
         try {
-            const editedProduct = {title, description, image, categories, price, inStock}
+            const editedProduct = {title, description, categories, price, inStock}
             const res = await axios.put(`/api/products/${productId}`, editedProduct)
             setMsg(res.data.msg)
         } catch (error) {
@@ -37,7 +56,6 @@ const EditProduct = () => {
         }
         setTitle('')
         setDescription('')
-        setImage('')
         setCategories([])
         setPrice(0)
         setInStock(true)
@@ -118,11 +136,9 @@ return (
         <div className="form-group add-edit-product-form-group">
             <label className="form-group add-edit-product-label">Image</label>
             <input 
-            type="text" 
+            type="file" 
             className="form-control add-edit-product-input" 
-            placeholder="Enter Product Image.." 
-            value={image}
-            onChange={e => setImage(e.target.value)}
+            onChange={e => e.target.files && setPicture(e.target.files[0])}
             required
             />
         </div>

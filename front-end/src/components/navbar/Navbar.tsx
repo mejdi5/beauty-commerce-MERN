@@ -17,7 +17,6 @@ const Navbar : React.FC = () => {
     const image = useTypedSelector<ImageType | null>(state => state.imageSlice.image)
     const cart = useTypedSelector(state => state.cartSlice.cart)
     const dispatch = useTypedDispatch()
-    console.log(image)
 
 
 return (
@@ -34,7 +33,7 @@ return (
             <Link to={`/user-profile/${user?._id}`} style={{ textDecoration: "none" }}>
                 {user && 
                 <div className='navbar-center-item'>
-                    <img src={image?.path} className="sidebar-user-image"/>
+                    <img src={`/images/${image?.path}`} className="sidebar-user-image"/>
                     <div>{user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}</div>
                 </div>
                 }

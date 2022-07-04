@@ -1,16 +1,16 @@
 let express = require('express')
 let router = express.Router();
 let multer = require('multer');
-const UserImage = require('../models/UserImage');
+const ProductImage = require('../models/ProductImage');
 const storage = require('../utils/multerConfig')
 
 
-//post new user image
-router.post('/upload/:userId', multer({ storage: storage }).single('picture'), async (req, res) => {
+//POST NEW PRODUCT IMAGE
+router.post('/upload/:productId', multer({ storage: storage }).single('picture'), async (req, res) => {
     try { 
-    await UserImage.findOneAndDelete({userId: req.params.userId})
-    const newImage = new UserImage({
-        userId: req.params.userId,
+    await ProductImage.findOneAndDelete({productId: req.params.productId})
+    const newImage = new ProductImage({
+        productId: req.params.productId,
         path: req.file.filename
     })
     const savedImage = await newImage.save()
@@ -20,20 +20,20 @@ router.post('/upload/:userId', multer({ storage: storage }).single('picture'), a
     }  
 })
 
-//GET USER IMAGE
-router.get("/:userId", async (req, res) => {
+//GET PRODUCT IMAGE
+router.get("/:productId", async (req, res) => {
     try {
-        const image = await UserImage.findOne({ userId: req.params.userId });
+        const image = await ProductImage.findOne({ productId: req.params.productId });
         res.status(200).json(image);
     } catch (error) {
         res.status(500).json(error);
     }
 });
 
-//GET ALL USERS IMAGES
+//GET ALL PRODUCT IMAGES
 router.get("/", async (req, res) => {
     try {
-        const images = await UserImage.find();
+        const images = await ProductImage.find();
         res.status(200).json(images);
     } catch (error) {
         res.status(500).json(error);
@@ -45,7 +45,7 @@ router.get("/", async (req, res) => {
 router.delete('/delete/:imageId', async (req, res) => {
     const  _id  = req.params.imageId;
     try {
-    const image = await UserImage.findOneAndDelete({ _id });
+    const image = await ProductImage.findOneAndDelete({ _id });
     res.status(200).json({ msg: "image deleted", image });
     } catch (error) {
         console.log('image not deleted',error);

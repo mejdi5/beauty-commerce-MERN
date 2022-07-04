@@ -13,7 +13,6 @@ const EditUser: React.FC = () => {
 
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
-    const images = useTypedSelector<ImageType[] | never[]>(state => state.imageSlice.images)
     const userId = useParams().userId
     const userToEdit = users && users.find((user: UserType) => user?._id === userId)
     const dispatch = useTypedDispatch()
@@ -24,9 +23,8 @@ const EditUser: React.FC = () => {
     const navigate = useNavigate()
     const [msg, setMsg] = useState<string | null>(null)
     const [picture, setPicture] = useState<any>(null)
-    const userImage = images.find((img: ImageType) => img?.userId === user?._id)
 
-    //post new image
+    //post new user image
     const uploadImage = async (e: FormEvent) => {
         e.preventDefault();
         try {

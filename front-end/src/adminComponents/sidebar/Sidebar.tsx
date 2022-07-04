@@ -14,7 +14,8 @@ import { getImage, ImageType } from '../../Redux/imageSlice';
 const Sidebar = () => {
 
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
-    const image = useTypedSelector<ImageType | null>(state => state.imageSlice.image)
+    const images = useTypedSelector<ImageType[] | null>(state => state.imageSlice.images)
+    const currentUserImage = images?.find(img => img.userId === user?._id)
     const dispatch = useTypedDispatch()
 
     const handleLogout = () => {
@@ -25,7 +26,7 @@ return (
 <div className="sidebar">
     <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-            <img src={image?.path} className="navbar-user-image"/>
+            <img src={`/images/${currentUserImage?.path}`} className="navbar-user-image"/>
             <span className="logo">Beauty Commerce</span>
         </Link>
     </div>

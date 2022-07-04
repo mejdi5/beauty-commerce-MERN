@@ -1,46 +1,59 @@
-import React,{FormEvent, useState, useEffect, KeyboardEvent} from 'react'
+import React,{FormEvent, useState} from 'react'
 import "./AllProducts.css"
 import Sidebar from '../../adminComponents/sidebar/Sidebar'
 import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
-import { useNavigate, useParams } from 'react-router-dom'
-import { ProductType } from '../../Redux/productSlice';
+import { useNavigate } from 'react-router-dom'
+import { ProductImageType, getProductImage } from '../../Redux/productImageSlice'
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const AddProduct = () => {
+const AddProduct: React.FC = () => {
 
+    const productImage = useTypedSelector<ProductImageType | null>(state => state.productImageSlice.productImage)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [image, setImage] = useState('')
+    const [picture, setPicture] = useState<any>(null)
     const [category, setCategory] = useState<string | null>(null)
     const [categories, setCategories] = useState<string[] | never[]>([])
     const [price, setPrice] = useState(0)
     const [inStock, setInStock] = useState(true)
-    const navigate = useNavigate() 
     const [msg, setMsg] = useState<string | null>(null)
+    const dispatch = useTypedDispatch()
+    const navigate = useNavigate() 
+
+    const uploadProductImage = async (e: FormEvent, id: string) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData()
+            formData.append('picture', picture)
+            const res = await axios.post(`/api/product-images/upload/${id}`, formData)
+            dispatch(getProductImage(res.data.path))
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleAddProduct = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            const newProduct = {title, description, image, categories, price, inStock}
+            const newProduct = {title, description, categories, price, inStock}
             const res = await axios.post(`/api/products`, newProduct)
+            uploadProductImage(e, res.data.savedProduct._id);
             setMsg(res.data.msg)
         } catch (error) {
             console.log(error)
         }
         setTitle('')
         setDescription('')
-        setImage('')
         setCategories([])
         setCategory('')
         setPrice(0)
         setInStock(true)
         setTimeout(() => navigate(-1), 1500)
     }
-    
 
 
 return (
@@ -115,11 +128,9 @@ return (
         <div className="form-group add-edit-product-form-group">
             <label className="form-group add-edit-product-label">Image</label>
             <input 
-            type="text" 
+            type="file" 
             className="form-control add-edit-product-input" 
-            placeholder="Enter Product Image.." 
-            value={image}
-            onChange={e => setImage(e.target.value)}
+            onChange={e => e.target.files && setPicture(e.target.files[0])}
             required
             />
         </div>

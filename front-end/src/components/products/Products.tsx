@@ -6,6 +6,7 @@ import { ProductType } from '../../Redux/productSlice'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
 import {UserType} from "../../Redux/userSlice"
+import {getAllProductImages, ProductImageType} from '../../Redux/productImageSlice'
 
 interface Props {
     filterProductsWord: string,
@@ -15,6 +16,7 @@ const Products : React.FC<Props> = ({filterProductsWord}) => {
 
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const products = useTypedSelector<ProductType[]>(state => state.productSlice.products)
+    const productImages = useTypedSelector<ProductImageType[] | never[]>(state => state.productImageSlice.productImages)
     const sort = useTypedSelector<string>(state => state.productSlice.sort)
     const category = useTypedSelector(state => state.productSlice.category)
     const dispatch = useTypedDispatch()
@@ -39,9 +41,17 @@ const Products : React.FC<Props> = ({filterProductsWord}) => {
         } catch (error: any) {
             console.log('error', error.message)
         }}
-        fetchProducts()
+        const getProductImages = async () => {
+            try {
+            const res = await axios.get("/api/product-images"); 
+            dispatch(getAllProductImages(res.data));
+            } catch (error) {
+                console.log(error.message)
+            }
+        };
+        fetchProducts();
+        getProductImages()
     }, [category, sort])
-
 
     let filteredProducts = 
     //filter products by title or category
@@ -57,18 +67,20 @@ const Products : React.FC<Props> = ({filterProductsWord}) => {
 
 return (
 <div className='products-container row-md-8'>
-    {filteredProducts.map((product:ProductType, index )=> (
+    {filteredProducts.map((product:ProductType, index ) => {
+        const productImage = productImages.find((img: ProductImageType) => img?.productId === product?._id)
+    return (
         <div className='product-wrapper' key={index}>
             <small>{product.categories.join(' / ').toUpperCase()}</small>
             <div className='product-title'>{product.title}</div>
             <Link to={`/product/${product._id}`}>
-                <img src={product.image} className='product-image'/>
+                <img src={`/images/${productImage?.path}`} className='product-image'/>
             </Link>
             <div className='product-price'>
                 {product.price}$
             </div>
         </div>
-    ))}
+    )})}
 </div>
 )}
 

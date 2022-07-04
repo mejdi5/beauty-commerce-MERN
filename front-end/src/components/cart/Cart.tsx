@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import './Cart.css'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -8,12 +8,14 @@ import axios from 'axios'
 import { CartProduct, getUserCart } from '../../Redux/cartSlice';
 import { UserType } from '../../Redux/userSlice';
 import { getOrder } from '../../Redux/orderSlice';
+import {ProductImageType} from '../../Redux/productImageSlice'
 
 
 const Cart : React.FC = () => {
 
     const cart = useTypedSelector(state => state.cartSlice.cart)
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
+    const productImages = useTypedSelector<ProductImageType[] | never[]>(state => state.productImageSlice.productImages)
     const dispatch = useTypedDispatch()
     const [address, setAddress] = useState('')
 
@@ -106,12 +108,14 @@ const postOrder = async () => {
         }
     }
 }
-
+console.log(productImages)
 
 return (
 <div className='cart-container'>
 <div className='cart-wrapper'>
-    {cart?.cartProducts?.length > 0 && cart?.cartProducts.map((item: CartProduct) => 
+    {cart?.cartProducts?.length > 0 && cart?.cartProducts.map((item: CartProduct) => {
+    const productImage = productImages.find((img: ProductImageType) => img.productId === item.product._id)
+    return (
     <div className='cart-item-wrapper' key={item?.product?._id}>
         <div className='cart-header'>
             <h3 className='cart-item-title'>{item?.product?.title}</h3>
@@ -130,10 +134,10 @@ return (
                 <div>{item?.productQuantity}</div>
                 <div className='cart-add-icon' onClick={() => item?.product?._id && increaseProductQuantity(item?.product?._id)}><AddIcon/></div>
             </div>
-            <img src={item?.product?.image} className='cart-item-image'/>
+            <img src={`/images/${productImage?.path}`} className='cart-item-image'/>
         </div>
     </div>
-    )}
+    )})}
     {cart?.cartProducts?.length > 0 && 
     <div className='cart-footer'>
         <h2>Total: {cart?.total}$</h2>

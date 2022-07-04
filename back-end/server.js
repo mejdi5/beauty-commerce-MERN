@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(morgan("dev"));
 
 app.use('/public', express.static('public'));
-
+app.use("/api/product-images", require('./routes/productImage'));
 app.use("/api/images", require('./routes/userImage'));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/forgot-password", require("./routes/forgotPassword"));

@@ -12,9 +12,7 @@ const Members : React.FC = () => {
 
     const images = useTypedSelector<ImageType[] | never[]>(state => state.imageSlice.images)
     const users = useTypedSelector<UserType[] | never[]>(state => state.userSlice.users)
-    const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const dispatch = useTypedDispatch()
-    const userImage = images.find((img: ImageType) => img?.userId === user?._id)
 
     useEffect(() => {
     const getUsers = async () => {
@@ -42,10 +40,12 @@ return (
 <div className="members">
     <span className="membersTitle">Members</span>
     <ul className="membersList">
-        {users.filter((user: UserType) => !user.isAdmin).map((user, index) => (
+        {users.filter((user: UserType) => !user.isAdmin).map((user, index) => {
+        const userImage = images.find((img: ImageType) => img?.userId === user?._id)
+        return (
         <li className="membersListItem" key={index}>
             <img
-            src={userImage ? userImage.path : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"}
+            src={userImage ? `/images/${userImage.path}` : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"}
             alt=""
             className="membersImg"
             />
@@ -58,8 +58,8 @@ return (
             See
             </button>
             </Link>
-        </li>
-        ))}
+        </li>)
+        })}
     </ul>
 </div>
 )}

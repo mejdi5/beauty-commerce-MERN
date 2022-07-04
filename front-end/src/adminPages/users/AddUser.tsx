@@ -5,27 +5,39 @@ import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import { getAllUsers, registerSuccess } from '../../Redux/userSlice'
+import {getImage, ImageType} from '../../Redux/imageSlice'
 
+const AddUser: React.FC = () => {
 
-const AddUser = () => {
-
-
+    const image = useTypedSelector<ImageType | null>(state => state.imageSlice.image)
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isAdmin, setIsAdmin] = useState(false)
-    const [image, setImage] = useState('https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
-    const navigate = useNavigate() 
+    const [picture, setPicture] = useState<any>(null)
     const [msg, setMsg] = useState<string | null>(null)
     const dispatch = useTypedDispatch()
+    const navigate = useNavigate() 
+
+    const uploadImage = async (e: FormEvent, id: string) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData()
+            formData.append('picture', picture)
+            const res = await axios.post(`/api/images/upload/${id}`, formData)
+            dispatch(getImage(res.data.path))
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleAddUser = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            const newUser = {firstName, lastName, email, password, isAdmin, image}
+            const newUser = {firstName, lastName, email, password, isAdmin}
             const res = await axios.post(`/api/users`, newUser)
+            uploadImage(e, res.data.savedUser._id);
             setMsg(res.data.msg)
         } catch (error) {
             const errors = error?.response?.data?.errors;
@@ -42,10 +54,9 @@ const AddUser = () => {
         setLastName('')
         setPassword('')
         setIsAdmin(false)
-        setImage('https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif')
         setTimeout(() => navigate(-1), 2000)
     }
-
+    
 
 return (
 <div className="add-edit-user">
@@ -99,11 +110,9 @@ return (
         <div className="form-group add-edit-user-form-group">
             <label className="form-group add-edit-user-label">Image</label>
             <input 
-            type="text" 
+            type="file" 
             className="form-control add-edit-user-input" 
-            placeholder="Enter image" 
-            value={image}
-            onChange={e => setImage(e.target.value)}
+            onChange={e => e.target.files && setPicture(e.target.files[0])}
             />
         </div>
         <div className="form-group add-edit-user-form-group">

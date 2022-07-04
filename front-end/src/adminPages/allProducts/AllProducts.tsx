@@ -6,8 +6,9 @@ import axios from 'axios'
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { ProductType, getProducts } from '../../Redux/productSlice';
+import { ProductImageType, getAllProductImages } from '../../Redux/productImageSlice';
 import AddIcon from '@mui/icons-material/Add';
 
 
@@ -15,6 +16,7 @@ import AddIcon from '@mui/icons-material/Add';
 const AllProducts: React.FC = () => {
 
     const products = useTypedSelector<ProductType[] | never[]>(state => state.productSlice.products)
+    const productImages = useTypedSelector<ProductImageType[] | never[]>(state => state.productImageSlice.productImages)
     const dispatch = useTypedDispatch()
     const [msg, setMsg] = useState<string | null>(null)
 
@@ -66,9 +68,6 @@ const AllProducts: React.FC = () => {
         renderCell: (params: any) => {
             return (
                 <div className='product-action'>
-                    <Link to="/newProduct">
-                        <AddIcon className="product-new"/>
-                    </Link>
                     <Link to={`/edit-product/${params.row.id}`}>
                         <EditIcon className="product-edit"/>
                     </Link>
@@ -82,12 +81,13 @@ const AllProducts: React.FC = () => {
         },
     ];
     
-    
+
     const productRows = products.map((product: ProductType) => {
+        const productImage = productImages.find((img: ProductImageType) => img?.productId === product?._id)
         return {
         id: product._id,
         title: product.title,
-        image: product.image,
+        image: `/images/${productImage?.path}`,
         categories: product.categories?.join(' / ').toUpperCase(),
         price: `${product.price}$`,
         inStock: product.inStock,
@@ -103,13 +103,27 @@ const AllProducts: React.FC = () => {
                 console.log(error.message)
             }
         };
+        const getProductImages = async () => {
+            try {
+            const res = await axios.get("/api/product-images"); 
+            dispatch(getAllProductImages(res.data));
+            } catch (error) {
+                console.log(error.message)
+            }
+        };
         getAllProducts();
+        getProductImages();
     }, [products]);
     
 return (
 <div className="allProducts">
     <Sidebar/>
     <div className="allProducts-container">
+        <Link to="/newProduct">
+            <div>
+                <AddIcon className="product-new"/>
+            </div>
+        </Link>                    
     {msg && <div className='product-delete-msg'>{msg}</div>}
     {productRows.length > 0
         ?

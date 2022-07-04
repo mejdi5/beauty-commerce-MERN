@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import "./AllOrders.css"
 import Sidebar from '../../adminComponents/sidebar/Sidebar'
 import { DataGrid } from '@mui/x-data-grid';
-import { getAllUsers, UserType } from '../../Redux/userSlice';
+import { UserType } from '../../Redux/userSlice';
 import { getOrders } from '../../Redux/orderSlice'
 import { OrderType } from '../../Redux/orderSlice';
 import axios from 'axios'
@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { ImageType } from '../../Redux/imageSlice';
 
 
@@ -87,7 +87,7 @@ const AllOrders: React.FC = () => {
         return {
         id: order._id,
         name: userOrder &&  userOrder.firstName + ' ' + userOrder.lastName,
-        image: userOrderImage ? userOrderImage : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
+        image: userOrderImage ? `/images/${userOrderImage?.path}` : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
         amount: `${order.amount}$`,
         address: order.address,
         status: order.status
@@ -118,7 +118,7 @@ const AllOrders: React.FC = () => {
 return (
 <div className="allOrders">
     <Sidebar/>
-    <div className="allOrders-container">
+    <div className="allOrders-container"> 
     {msg && <div className='order-delete-msg'>{msg}</div>}
     {orderRows.length > 0
         ?

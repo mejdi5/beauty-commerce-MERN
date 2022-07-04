@@ -4,6 +4,7 @@ import productSlice from './productSlice'
 import cartSlice from './cartSlice'
 import orderSlice from './orderSlice'
 import imageSlice from './imageSlice'
+import productImageSlice from './productImageSlice'
 
 import {
     persistStore,
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
     productSlice,
     cartSlice,
     orderSlice,
-    imageSlice
+    imageSlice,
+    productImageSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

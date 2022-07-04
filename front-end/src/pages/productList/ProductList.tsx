@@ -12,6 +12,7 @@ import { UserType } from '../../Redux/userSlice'
 import ActivateAccount from '../../components/activateAccount/ActivateAccount'
 import Sidebar from '../../adminComponents/sidebar/Sidebar'
 
+
 interface Props {
     filterProductsWord: string,
     setFilterProductsWord: React.Dispatch<React.SetStateAction<string>>,

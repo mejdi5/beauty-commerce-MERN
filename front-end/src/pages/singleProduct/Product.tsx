@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import Footer from '../../components/footer/Footer'
 import Navbar from '../../components/navbar/Navbar'
 import './Product.css'
@@ -12,6 +12,7 @@ import { getUserCart, CartType, CartProduct } from '../../Redux/cartSlice';
 import axios from 'axios'
 import { UserType } from '../../Redux/userSlice';
 import ActivateAccount from '../../components/activateAccount/ActivateAccount';
+import {getProductImage, ProductImageType} from '../../Redux/productImageSlice'
 
 
 const Product : React.FC = () => {
@@ -19,6 +20,7 @@ const Product : React.FC = () => {
     const dispatch = useTypedDispatch()
     const user = useTypedSelector<UserType | null>(state => state.userSlice.user)
     const products = useTypedSelector<ProductType[]>(state => state.productSlice.products)
+    const productImage = useTypedSelector<ProductImageType | null>(state => state.productImageSlice.productImage)
     const cart = useTypedSelector<CartType | null>(state => state.cartSlice.cart)
     const navigate = useNavigate()
     const productId = useParams().productId
@@ -53,6 +55,19 @@ const Product : React.FC = () => {
             }
         }
     }
+
+    useEffect(() => {
+    const fetchProductImage = async () => {
+        try {
+            const res = await axios.get(`/api/product-images/${productId}`)
+            dispatch(getProductImage(res.data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    fetchProductImage()
+    }, [])
+    
     
     
 return (
@@ -64,7 +79,7 @@ return (
     <div className='product-wrapper'>
         <div className='product-info'>
             <h1 className='product-title'>{product?.title} </h1>
-            <img src={product?.image} className='product-image'/>
+            <img src={`/images/${productImage?.path}`} className='product-image'/>
             <span className='product-price'>{product?.price}$</span>
             <p className='product-description'>{product?.description}</p>
         </div>

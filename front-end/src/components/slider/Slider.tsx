@@ -5,7 +5,8 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import axios from 'axios'
 import { ProductType } from '../../Redux/productSlice'
 import {Link} from 'react-router-dom'
-import { useTypedSelector } from '../../Redux/Hooks'
+import { useTypedSelector, useTypedDispatch } from '../../Redux/Hooks'
+import {getAllProductImages, ProductImageType} from '../../Redux/productImageSlice'
 
 
 const Slider : React.FC = () => {
@@ -13,6 +14,8 @@ const Slider : React.FC = () => {
     const [slideIndex, setSlideIndex] = useState(1)
     const [slideProducts, setSlideProducts] = useState([])
     const products = useTypedSelector<ProductType[]>(state => state.productSlice.products)
+    const productImages = useTypedSelector<ProductImageType[] | never[]>(state => state.productImageSlice.productImages)
+    const dispatch = useTypedDispatch()
 
     //move to next slide
     const nextSlide = () => {
@@ -47,7 +50,16 @@ const Slider : React.FC = () => {
             } catch (error: any) {
                 console.log('error', error.message)
             }}
-        getSlideProducts()
+        const getSlideProductImages = async () => {
+            try {
+            const res = await axios.get("/api/product-images"); 
+                dispatch(getAllProductImages(res.data));
+            } catch (error) {
+                console.log(error.message)
+            }
+        };
+        getSlideProducts();
+        getSlideProductImages();
     }, [products])
     
 
@@ -69,12 +81,13 @@ return (
     </div>
     <div className='slide-wrapper'>
     {slideProducts.map((slideProduct: ProductType, index) => {
+            const productImage = productImages.find((img: ProductImageType) => img?.productId === slideProduct?._id)
                 return (
                     <div 
                     className={slideIndex === index + 1 ? "slide active" : "slide"}
                     key={index}
                     >
-                        <img className='slide-image' src={slideProduct.image} />
+                        <img className='slide-image' src={`/images/${productImage?.path}`} />
                         <div className='slide-info'>
                             <h1 className='slide-title'>{slideProduct.title}</h1>
                             <p className='slide-description'>{slideProduct.description}</p>

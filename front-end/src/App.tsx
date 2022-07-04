@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const [filterProductsWord, setFilterProductsWord] = useState("")
 
   const postCart = async () => {
-    if (user && user?.verified) {
+    if (user && user?.verified && !user.isAdmin) {
       try {
         const newCart = {
           userId: user?._id,
@@ -72,7 +72,7 @@ const App: React.FC = () => {
     user && user?.verified && getCart()
   }, [user])
   
-/*
+
   if (isLoading) {
     return (
       <div className="spinner-border" role="status" >
@@ -80,7 +80,7 @@ const App: React.FC = () => {
       </div>
     );
   }
-*/
+
   return (
     <BrowserRouter>
         <Routes>

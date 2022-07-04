@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { ImageType } from '../../Redux/imageSlice';
 
 
@@ -70,9 +70,6 @@ const Users: React.FC = () => {
       renderCell: (params: any) => {
         return (
           <div className='user-action'>
-            <Link to="/newUser">
-                <AddIcon className="user-new"/>
-            </Link>
             <Link to={`/user/${params.row.id}`}>
               <EditIcon className="user-edit"/>
             </Link>
@@ -116,7 +113,7 @@ const Users: React.FC = () => {
       id: user._id,
       name: user.firstName + ' ' + user.lastName,
       email: user.email,
-      image: userImage?.path || "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
+      image: userImage ? `/images/${userImage?.path}` : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
       status: orders.some((order: OrderType) => order.userId === user._id && new Date(order.createdAt) > lastMonth) ? "Active" : 'Inactive',
       transaction: orders.some((order: OrderType) => order.userId === user._id)
       ? `${orders.filter((order: OrderType) => order.userId === user._id).map(order => order.amount)?.reduce((a,b) => a + b)}$`
@@ -127,6 +124,11 @@ return (
 <div className="users">
     <Sidebar/>
     <div className="users-container">
+      <Link to="/newUser">
+        <div>
+          <AddIcon className="user-new"/>
+        </div>
+      </Link>
       {msg && <div className='user-delete-msg'>{msg}</div>}
       {userRows.length > 0
         ?

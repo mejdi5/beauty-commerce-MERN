@@ -12,7 +12,7 @@ interface State {
 }
 
 const imageSlice = createSlice({
-    name: 'user',
+    name: 'userImage',
     initialState: {
         image: null,
         images: []
