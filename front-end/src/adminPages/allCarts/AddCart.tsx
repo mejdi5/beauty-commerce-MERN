@@ -1,13 +1,11 @@
-import React,{FormEvent, useState, useEffect} from 'react'
-import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
+import React,{FormEvent, useState} from 'react'
+import { useTypedDispatch } from '../../Redux/Hooks'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../../adminComponents/sidebar/Sidebar'
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import { CartProduct, getUserCart } from '../../Redux/cartSlice'
-import CloseIcon from '@mui/icons-material/Close';
+import { getUserCart } from '../../Redux/cartSlice'
 import AddIcon from '@mui/icons-material/Add';
-import CartProductModal from './CartProductModal'
 import CartUserModal from './CartUserModal'
 
 const AddCart: React.FC = () => {

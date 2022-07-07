@@ -75,6 +75,7 @@ const App: React.FC = () => {
   useEffect(() => {
     user && user?.verified && getCart()
   }, [user])
+
   
 /*
   if (isLoading) {
@@ -228,7 +229,7 @@ const App: React.FC = () => {
             <Navigate to="/"/>
           }/>
 
-          <Route path="/edit-cart/:userId" element={
+          <Route path="/edit-cart/:cartId" element={
             (user && user.isAdmin) 
             ? 
             <EditCart/> 

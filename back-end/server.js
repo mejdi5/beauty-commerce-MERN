@@ -7,12 +7,21 @@ const morgan = require('morgan')
 
 
 dotenv.config();
+//database connection
 mongoose
     .connect(process.env.MONGO_URI) 
     .then(() => console.log("Database connected.."))
     .catch((error) => {
     console.log(error, "Database is not connected..");
 });
+
+//deploy
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('../front-end/build'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'front-end', 'build', 'index.html'));
+    });
+}
 
 app.use(cors())
 app.use(express.json())

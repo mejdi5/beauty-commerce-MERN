@@ -6,7 +6,8 @@
   "scripts": {
     "server": "nodemon server.js",
     "client": "cd .. && npm start --prefix front-end",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd .. && cd front-end && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-validator": "^6.14.1",
+    "heroku": "^7.60.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.6",
     "morgan": "^1.10.0",
