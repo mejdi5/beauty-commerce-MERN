@@ -69,6 +69,7 @@ return (
             <input 
             type="email" 
             className="form-control add-edit-user-input" 
+            value={email}
             onChange={e => setEmail(e.target.value)}
             />
         </div>

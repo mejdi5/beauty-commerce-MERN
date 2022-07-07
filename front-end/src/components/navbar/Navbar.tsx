@@ -33,7 +33,10 @@ return (
             <Link to={`/user-profile/${user?._id}`} style={{ textDecoration: "none" }}>
                 {user && 
                 <div className='navbar-center-item'>
-                    <img src={`/images/${image?.path}`} className="sidebar-user-image"/>
+                    <img 
+                    src={image ? `/images/${image?.path}` : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"} 
+                    className="sidebar-user-image"
+                    />
                     <div>{user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}</div>
                 </div>
                 }

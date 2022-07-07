@@ -152,6 +152,21 @@
     width: 5vw
 }
 
+.product-in-stock {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.in-stock-icon {
+    color: green;
+}
+
+.out-of-stock-icon {
+    color: red
+}
+
 .no-products {
     height: 100vh;
     width: 80vw;

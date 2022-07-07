@@ -17,7 +17,6 @@ const EditProduct = () => {
     const productId = useParams().productId
     const productToEdit = products && products.find((product: ProductType) => product?._id === productId)
     const productImages = useTypedSelector<ProductImageType[] | never[]>(state => state.productImageSlice.productImages)
-    //const productImage = productImages.find((img: ProductImageType) => img?.productId === productToEdit?._id)
     const [picture, setPicture] = useState<any>(null)
     const [title, setTitle] = useState(productToEdit?.title || '')
     const [description, setDescription] = useState(productToEdit?.description || '')
@@ -46,7 +45,7 @@ const EditProduct = () => {
 
     const handleEditProduct = async (e: FormEvent) => {
         e.preventDefault();
-        uploadProductImage(e);
+        picture && uploadProductImage(e);
         try {
             const editedProduct = {title, description, categories, price, inStock}
             const res = await axios.put(`/api/products/${productId}`, editedProduct)

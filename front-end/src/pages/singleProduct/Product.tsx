@@ -83,7 +83,7 @@ return (
             <span className='product-price'>{product?.price}$</span>
             <p className='product-description'>{product?.description}</p>
         </div>
-        {user && user.verified && !user.isAdmin &&
+        {user && user.verified && !user.isAdmin && product?.inStock &&
         <div className='product-amount'>
         <div className='amount'>
             <div className='set-amount' onClick={() => productNumber > 1 && setProductNumber(productNumber - 1)}><RemoveIcon/></div>

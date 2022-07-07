@@ -18,6 +18,7 @@ import ForgotPassword from './pages/auth/forgotPassword/ForgotPassword';
 import PasswordReset from './pages/auth/passwordReset/PasswordReset';
 import AdminHome from './adminPages/adminHome/AdminHome'
 import Users from './adminPages/users/Users';
+import AllCarts from './adminPages/allCarts/AllCarts';
 import AllOrders from './adminPages/allOrders/AllOrders';
 import AllProducts from './adminPages/allProducts/AllProducts'
 import EditUser from './adminPages/users/EditUser';
@@ -27,6 +28,9 @@ import AddProduct from  './adminPages/allProducts/AddProduct';
 import EditProduct from './adminPages/allProducts/EditProduct';
 import Profile from './pages/profile/Profile';
 import EditProfile from './pages/profile/EditProfile';
+import Cart from './components/cart/Cart';
+import AddCart from './adminPages/allCarts/AddCart';
+import EditCart from './adminPages/allCarts/EditCart';
 
 
 const App: React.FC = () => {
@@ -72,7 +76,7 @@ const App: React.FC = () => {
     user && user?.verified && getCart()
   }, [user])
   
-
+/*
   if (isLoading) {
     return (
       <div className="spinner-border" role="status" >
@@ -80,7 +84,7 @@ const App: React.FC = () => {
       </div>
     );
   }
-
+*/
   return (
     <BrowserRouter>
         <Routes>
@@ -196,6 +200,38 @@ const App: React.FC = () => {
             (user && user.isAdmin) 
             ? 
             <EditUser/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/allCarts" element={
+            (user && user.isAdmin) 
+            ? 
+            <AllCarts/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/cart/:userId" element={
+            (user && user.isAdmin) 
+            ? 
+            <Cart/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/newCart" element={
+            (user && user.isAdmin) 
+            ? 
+            <AddCart/> 
+            : 
+            <Navigate to="/"/>
+          }/>
+
+          <Route path="/edit-cart/:userId" element={
+            (user && user.isAdmin) 
+            ? 
+            <EditCart/> 
             : 
             <Navigate to="/"/>
           }/>

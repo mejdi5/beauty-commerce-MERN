@@ -61,7 +61,7 @@ const Products : React.FC<Props> = ({filterProductsWord}) => {
             product.title.toLowerCase().trim().startsWith(filterProductsWord.toLowerCase().trim()))
 
     if ((!category && !user?.isAdmin)) {
-        filteredProducts = filteredProducts.slice(0,8)
+        filteredProducts = filteredProducts.slice(0,6)
     }
 
 
@@ -71,13 +71,14 @@ return (
         const productImage = productImages.find((img: ProductImageType) => img?.productId === product?._id)
     return (
         <div className='product-wrapper' key={index}>
-            <small>{product.categories.join(' / ').toUpperCase()}</small>
+            <small className='product-categories'>{product.categories.join(' / ').toUpperCase()}</small>
             <div className='product-title'>{product.title}</div>
+            <small className='out-of-stock'>{!product.inStock && "Out Of Stock"}</small>
             <Link to={`/product/${product._id}`}>
                 <img src={`/images/${productImage?.path}`} className='product-image'/>
             </Link>
             <div className='product-price'>
-                {product.price}$
+                {product.price}$   
             </div>
         </div>
     )})}

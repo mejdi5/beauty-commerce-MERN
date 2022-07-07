@@ -37,7 +37,7 @@ const AddUser: React.FC = () => {
         try {
             const newUser = {firstName, lastName, email, password, isAdmin}
             const res = await axios.post(`/api/users`, newUser)
-            uploadImage(e, res.data.savedUser._id);
+            picture && uploadImage(e, res.data.savedUser._id);
             setMsg(res.data.msg)
         } catch (error) {
             const errors = error?.response?.data?.errors;

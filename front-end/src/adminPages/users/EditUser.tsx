@@ -6,7 +6,7 @@ import { getOneUser, UserType } from '../../Redux/userSlice';
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import { ImageType, getImage } from '../../Redux/imageSlice';
+import { getImage } from '../../Redux/imageSlice';
 
 
 const EditUser: React.FC = () => {
@@ -22,14 +22,14 @@ const EditUser: React.FC = () => {
     const [email, setEmail] = useState(userToEdit?.email || '')
     const navigate = useNavigate()
     const [msg, setMsg] = useState<string | null>(null)
-    const [picture, setPicture] = useState<any>(null)
+    const [userPicture, setUserPicture] = useState<any>(null)
 
     //post new user image
     const uploadImage = async (e: FormEvent) => {
         e.preventDefault();
         try {
             const formData = new FormData()
-            formData.append('picture', picture)
+            formData.append('userPicture', userPicture)
             const response = await axios.post(`/api/images/upload/${userId}`, formData)
             response.data.savedImage && dispatch(getImage(response.data.savedImage.path))
         } catch (error) {
@@ -39,7 +39,7 @@ const EditUser: React.FC = () => {
 
     const handleEditUser = async (e: FormEvent) => {
         e.preventDefault();
-        uploadImage(e);
+        userPicture && uploadImage(e);
         const editedUser = {firstName, lastName, email}
         try {
             const res = await axios.put(`/api/users/${userId}`, editedUser)
@@ -59,6 +59,7 @@ const EditUser: React.FC = () => {
             }
         }
     }
+
 
 return (
 <div className="add-edit-user">
@@ -93,19 +94,12 @@ return (
             onChange={e => setEmail(e.target.value)}
             />
         </div>
-        <div className="form-group add-edit-user-form-group">
-            <label className="form-group add-edit-user-label">Image</label>
-            <input 
-            type="file" 
-            className="form-control add-edit-user-input" 
-            onChange={e => e.target.files && setPicture(e.target.files[0])}
-            />
-        </div>
+        
         <button 
         type="submit" 
         className="btn btn-primary"
         onClick={e => handleEditUser(e)}
-        >Update</button>
+        >Save</button>
     </div>
 </div>
 )}

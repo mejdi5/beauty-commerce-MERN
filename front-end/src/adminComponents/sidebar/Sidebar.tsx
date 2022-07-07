@@ -8,7 +8,8 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { logoutUser, UserType } from '../../Redux/userSlice';
 import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
-import { getImage, ImageType } from '../../Redux/imageSlice';
+import { ImageType } from '../../Redux/imageSlice';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
 const Sidebar = () => {
@@ -45,6 +46,12 @@ return (
             <li>
                 <PersonOutlineIcon className="icon" />
                 <span>Users</span>
+            </li>
+        </Link>
+        <Link to="/allCarts" style={{ textDecoration: "none" }}>
+            <li>
+                <ShoppingCartIcon className="icon" />
+                <span>Carts</span>
             </li>
         </Link>
         <Link to="/allProducts" style={{ textDecoration: "none" }}>

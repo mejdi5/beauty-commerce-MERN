@@ -12,7 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { ImageType } from '../../Redux/imageSlice';
-
+import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
+import AirplanemodeInactiveIcon from '@mui/icons-material/AirplanemodeInactive';
 
 const Users: React.FC = () => {
 
@@ -21,6 +22,7 @@ const Users: React.FC = () => {
   const orders = useTypedSelector<OrderType[] | never[]>(state => state.orderSlice.orders)
   const dispatch = useTypedDispatch()
   const [msg, setMsg] = useState<string | null>(null)
+  const lastMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
 
 
   const handleDelete = async (id: string) => {
@@ -35,28 +37,44 @@ const Users: React.FC = () => {
   const columns = [
     { field: "id", 
       headerName: "CUSTOMER ID", 
-      width: 220 },
+      width: 250 },
     {
       field: "name",
       headerName: "CUSTOMER NAME",
-      width: 220,
+      width: 280,
       renderCell: (params: any) => {
         return (
           <div className="userListUser">
             <img className="userListImg" src={params.row.image} alt="" />
-            {params.row.name}
+            {params.row.name.toUpperCase()}
           </div>
         );
       },
     },
     { field: "email", 
       headerName: "EMAIL",
-      width: 220 
+      width: 270 
     },
     {
       field: "status",
       headerName: "STATUS",
       width: 120,
+      renderCell: (params: any) => {
+        if(orders.some((order: OrderType) => order.userId === params.row.id && new Date(order.createdAt) > lastMonth)) {
+        return (
+          <div className='user-activity'>
+            <div className='user-activity-icon'><AirplanemodeActiveIcon color="success"/></div>
+            <div>Active</div>
+          </div>
+        )} else {
+          return (
+            <div className='user-activity'>
+              <div className='user-activity-icon'><AirplanemodeInactiveIcon color="warning"/></div>
+              <div>Inactive</div>
+            </div>
+          )
+        }
+      },
     },
     {
       field: "transaction",
@@ -71,10 +89,11 @@ const Users: React.FC = () => {
         return (
           <div className='user-action'>
             <Link to={`/user/${params.row.id}`}>
-              <EditIcon className="user-edit"/>
+              <EditIcon className="user-edit" color="primary"/>
             </Link>
             <DeleteIcon
               className="user-delete"
+              color="action"
               onClick={() => handleDelete(params.row.id)}
             />
           </div>
@@ -106,15 +125,14 @@ const Users: React.FC = () => {
     }, [users, orders]);
 
 
-    const lastMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
-    const userRows = users.filter((user: UserType) => !user.isAdmin).map((user: UserType) => {
+    const userRows = users.filter((user: any) => !user.isAdmin).map((user: any) => {
       const userImage = images.find((img: ImageType) => img?.userId === user?._id)
       return {
       id: user._id,
       name: user.firstName + ' ' + user.lastName,
       email: user.email,
       image: userImage ? `/images/${userImage?.path}` : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
-      status: orders.some((order: OrderType) => order.userId === user._id && new Date(order.createdAt) > lastMonth) ? "Active" : 'Inactive',
+      status:  user?.status,
       transaction: orders.some((order: OrderType) => order.userId === user._id)
       ? `${orders.filter((order: OrderType) => order.userId === user._id).map(order => order.amount)?.reduce((a,b) => a + b)}$`
       : ''

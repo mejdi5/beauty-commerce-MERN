@@ -10,7 +10,7 @@ import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { ProductType, getProducts } from '../../Redux/productSlice';
 import { ProductImageType, getAllProductImages } from '../../Redux/productImageSlice';
 import AddIcon from '@mui/icons-material/Add';
-
+import Brightness1RoundedIcon from '@mui/icons-material/Brightness1Rounded';
 
 
 const AllProducts: React.FC = () => {
@@ -36,7 +36,7 @@ const AllProducts: React.FC = () => {
         {
             field: "title",
             headerName: "PRODUCT NAME",
-            width: 600,
+            width: 550,
             renderCell: (params: any) => {
             return (
                 <div>
@@ -59,7 +59,19 @@ const AllProducts: React.FC = () => {
         {
         field: "inStock",
         headerName: "IN STOCK",
-        width: 80,
+        width: 150,
+        renderCell: (params: any) => {
+            return (
+                <div className='product-in-stock'>
+                    <div>
+                        {params.row.inStock ? "In Stock" : "Out Of Stock"}
+                    </div>
+                    <div className={params.row.inStock ? "in-stock-icon" : "out-of-stock-icon"}>
+                        <Brightness1RoundedIcon/>
+                    </div>
+                </div>
+            );
+        },
         },
         {
         field: "action",
@@ -69,10 +81,11 @@ const AllProducts: React.FC = () => {
             return (
                 <div className='product-action'>
                     <Link to={`/edit-product/${params.row.id}`}>
-                        <EditIcon className="product-edit"/>
+                        <EditIcon className="product-edit" color="primary"/>
                     </Link>
                     <DeleteIcon
                     className="product-delete"
+                    color="action"
                     onClick={() => handleDelete(params.row.id)}
                     />
                 </div>

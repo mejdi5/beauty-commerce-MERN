@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const Cart = require("../models/Cart");
 const Token = require("../models/Token");
 const CryptoJS = require("crypto-js");
 const crypto = require('crypto')

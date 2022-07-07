@@ -1,6 +1,7 @@
 .profile{
     flex: 4;
     display: flex;
+    height: 100vh
 }
 
 .profile-container {
@@ -13,8 +14,9 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: rgb(45, 37, 37);
+    background-color: rgb(109, 156, 168);
     border-radius: 20px;
+    height: 90vh
 }
 
 .profile-image-wrapper {
@@ -74,7 +76,10 @@
 }
 
 .profile-info-item > span{
-    width: 5vw
+    width: 7vw;
+    color: black;
+    text-align: justify;
+    font-size: 15px;
 }
 
 .profile-icons{
@@ -92,4 +97,20 @@
 .profile-icon:hover {
     background-color: #fff;
 }
+
+.user-image-delete {
+    opacity: 0;
+}
+
+.user-image-delete:hover {
+    opacity: 0.5;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.deleteImageMsg {
+    color: red
+}
+
 

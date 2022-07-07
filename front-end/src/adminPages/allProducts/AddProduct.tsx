@@ -3,7 +3,7 @@ import "./AllProducts.css"
 import Sidebar from '../../adminComponents/sidebar/Sidebar'
 import {  useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { useNavigate } from 'react-router-dom'
-import { ProductImageType, getProductImage } from '../../Redux/productImageSlice'
+import { getProductImage } from '../../Redux/productImageSlice'
 import axios from 'axios'
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,7 +12,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const AddProduct: React.FC = () => {
 
-    const productImage = useTypedSelector<ProductImageType | null>(state => state.productImageSlice.productImage)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [picture, setPicture] = useState<any>(null)

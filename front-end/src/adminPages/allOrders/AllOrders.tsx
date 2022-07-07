@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useTypedDispatch, useTypedSelector } from '../../Redux/Hooks'
 import { ImageType } from '../../Redux/imageSlice';
+import Brightness1RoundedIcon from '@mui/icons-material/Brightness1Rounded';
 
 
 const AllOrders: React.FC = () => {
@@ -54,6 +55,18 @@ const AllOrders: React.FC = () => {
         field: "status",
         headerName: "STATUS",
         width: 120,
+        renderCell: (params: any) => {
+            return (
+                <div className='order-status'>
+                    <div>
+                        {params.row.status === "paid" ? "PAID" : "NOT PAID"}
+                    </div>
+                    <div className={params.row.status === "paid" ? "paid-icon" : "unpaid-icon"}>
+                        <Brightness1RoundedIcon/>
+                    </div>
+                </div>
+            );
+        },
         },
         {
         field: "action",
@@ -63,15 +76,17 @@ const AllOrders: React.FC = () => {
             return (
                 <div className='order-action'>
                     <Link to={`/edit-order/${params.row.id}`}>
-                        <EditIcon className="order-edit"/>
+                        <EditIcon className="order-icon" color="primary"/>
                     </Link>
                     <Link to={`/order/${params.row.id}`}>
                         <VisibilityIcon
-                        className="order-visibility"
+                        color="secondary"
+                        className="order-icon"
                         />
                     </Link>
                     <DeleteIcon
-                    className="order-delete"
+                    className="order-icon"
+                    color="action"
                     onClick={() => handleDelete(params.row.id)}
                     />
                 </div>
@@ -86,7 +101,7 @@ const AllOrders: React.FC = () => {
         const userOrderImage = images.find((img: ImageType) => img?.userId === userOrder?._id)
         return {
         id: order._id,
-        name: userOrder &&  userOrder.firstName + ' ' + userOrder.lastName,
+        name: userOrder &&  userOrder.firstName.toUpperCase() + ' ' + userOrder.lastName?.toUpperCase() || "This user is deleted",
         image: userOrderImage ? `/images/${userOrderImage?.path}` : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif",
         amount: `${order.amount}$`,
         address: order.address,

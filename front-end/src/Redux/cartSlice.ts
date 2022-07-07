@@ -18,6 +18,7 @@ export interface CartType {
 
 interface State {
     cart: CartType | null,
+    carts: CartType[] | never[]
 }
 
 const cartSlice = createSlice({
@@ -29,16 +30,20 @@ const cartSlice = createSlice({
             cartProducts: [],
             quantity: 0,
             total: 0,
-        } ,
+        },
+        carts: []
     },
     reducers: {
     getUserCart: (state: State, action: PayloadAction<CartType>) => {
         state.cart = action.payload
-    }
+    },
+    getCarts: (state: State, action: PayloadAction<CartType[] | never[]>) => {
+        state.carts = action.payload
+    },
 }})
 
 const { actions, reducer } = cartSlice
 
-export const { getUserCart } = actions;
+export const { getUserCart, getCarts } = actions;
 
 export default reducer

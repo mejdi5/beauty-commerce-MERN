@@ -11,6 +11,7 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import Navbar from '../../components/navbar/Navbar'
 import {Button} from 'reactstrap'
 import { getImage, ImageType } from '../../Redux/imageSlice';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
@@ -22,6 +23,7 @@ const Profile: React.FC = () => {
     const [picture, setPicture] = useState<any>(null)
     const dispatch = useTypedDispatch()
     const [msg, setMsg] = useState<string | null>(null)
+    const [deleteImageMsg, setDeleteImageMsg] = useState<string | null>(null)
     const navigate = useNavigate()
 
     const userId = useParams().userId
@@ -51,6 +53,18 @@ const Profile: React.FC = () => {
         }
     }
 
+    //delete Image
+    const deleteImage = async (id: string) => {
+        
+        try {
+            const res = await axios.delete(`/api/images/delete/${id}`)
+            dispatch(getImage(null))
+            setDeleteImageMsg(res.data.msg)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
     const fetchImage = async () => {
         try {
@@ -65,11 +79,11 @@ const Profile: React.FC = () => {
     
 
 
-useEffect(() => {
-if( user?._id !== currentUser?._id && !currentUser?.isAdmin) {
+    useEffect(() => {
+    if( user?._id !== currentUser?._id && !currentUser?.isAdmin) {
     navigate('/')
-} 
-}, [user, currentUser])
+    } 
+    }, [user, currentUser])
 
 
 return (
@@ -82,6 +96,7 @@ return (
     {msg && <div className='user-delete-msg'>{msg}</div>}
     <div className="profile-wrapper">
         <div className='profile-image-wrapper'>
+            {deleteImageMsg && <div className='deleteImageMsg'>{deleteImageMsg}</div>}
             <img 
             className="profile-image"
             src={ image ? `/images/${image.path}` : "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"} 
@@ -98,6 +113,12 @@ return (
             >Click To Upload</Button>
             }
         </div>
+        {image &&
+        <CloseIcon 
+        className='user-image-delete'
+        onClick={() => image?._id && deleteImage(image?._id)}
+        />
+        }
         <div className='profile-info'>
             <div className='profile-info-item'>
                 <span>First Name:</span><h6>{user?.firstName}</h6>
@@ -114,10 +135,12 @@ return (
             </div>
             }
         </div>
+        {currentUser?._id === user?._id &&
         <div className='profile-icons'>
             <Link to={user?.isAdmin ? `/user/${user?._id}` : `/edit-profile/${user?._id}`}><EditIcon color="success" className='profile-icon'/></Link>
-            <DeleteIcon color="error" className='profile-icon' onClick={() => user?._id && handleDeleteUser(user?._id)}/>
+            <DeleteIcon color="action" className='profile-icon' onClick={() => user?._id && handleDeleteUser(user?._id)}/>
         </div>
+        }
     </div>
 </div>
 </div>
