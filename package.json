@@ -7,8 +7,9 @@
   },
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "cd front-end && npm start ",
+    "client": "cd front-end && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd front-end && npm install && npm run build"
   },
